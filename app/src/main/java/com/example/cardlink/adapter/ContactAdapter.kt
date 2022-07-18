@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.cardlink.MockContact
 import com.example.cardlink.R
+import com.example.cardlink.dataLayer.MockContact
 
 
 class ContactAdapter(
@@ -21,6 +21,7 @@ class ContactAdapter(
         val name: TextView,
         val occupation: TextView,
         val photo: ImageView,
+        var primaryKey: Int = 0,
     )
 
     override fun getCount(): Int {
@@ -41,6 +42,8 @@ class ContactAdapter(
         updateViewHolder()
 
         val contact = getItem(position)
+
+        viewHolder?.primaryKey = contact.primaryKey
         viewHolder?.name?.text = contact.name
         viewHolder?.occupation?.text = contact.occupation
         // TODO: Add profile photo when data is not mocked
@@ -69,7 +72,6 @@ class ContactAdapter(
         }
         else {
             // The view already exists, let's recycle it.
-            _myViewConverter = View.inflate(context, R.layout.item_listview_contact, null)
             viewHolder = _myViewConverter.tag as ViewHolder
         }
 

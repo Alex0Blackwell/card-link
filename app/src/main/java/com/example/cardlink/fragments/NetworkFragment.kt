@@ -8,17 +8,11 @@ import android.view.ViewGroup
 import com.example.cardlink.R
 import android.widget.ListView
 import com.example.cardlink.adapter.ContactAdapter
+import com.example.cardlink.dataLayer.Mock.Companion.mockedContacts
+import com.example.cardlink.dialog.BusinessCardDialog
 
-data class MockContact(val name: String, val occupation: String)
 
 class NetworkFragment : Fragment() {
-    // TODO: Get actual contacts from viewModel
-    private val mockedContacts: ArrayList<MockContact> = arrayListOf(
-        MockContact("John Doe", "Batman"),
-        MockContact("Jane Doe", "Wonder Woman"),
-        MockContact("Mr. Mock", "Superman"),
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +23,15 @@ class NetworkFragment : Fragment() {
         val contactAdapter = ContactAdapter(requireActivity(), mockedContacts)
 
         myContactsListView.adapter = contactAdapter
+
+        myContactsListView.setOnItemClickListener { _, item: View, _, _ ->
+            val contact = item.tag as ContactAdapter.ViewHolder
+            val businessCardDialog = BusinessCardDialog()
+            val bundleUpPrimaryKey = Bundle()
+            bundleUpPrimaryKey.putInt(BusinessCardDialog.contactPrimaryKeyIdentifier, contact.primaryKey)
+            businessCardDialog.arguments = bundleUpPrimaryKey
+            businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
+        }
 
         return view
     }
