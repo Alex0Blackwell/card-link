@@ -1,10 +1,11 @@
-package com.example.cardlink
+package com.example.cardlink.fragments
 
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,16 +13,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.cardlink.viewModels.ProfileImageViewModel
+import com.example.cardlink.R
 import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabItem
+import com.google.android.material.tabs.TabLayout
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ProfileFragment : Fragment() {
     private lateinit var profileImage: CircleImageView
     private lateinit var profileImageChangeButton: FloatingActionButton
     private lateinit var profileImageViewModel: ProfileImageViewModel
+    private lateinit var tabLayout:TabLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +46,16 @@ class ProfileFragment : Fragment() {
     //function handles the implementation of a users profile photo
     private fun profileImageSetUp(view:View){
         profileImage = view.findViewById(R.id.profileImage)
+
+        tabLayout = requireActivity().findViewById(R.id.tabLayout)
+
         profileImageChangeButton = view.findViewById(R.id.changeProfileImageButton)
 
         //view model observes any changes to ProfileImageViewModel value userImage (type bitmap)
         //userImage corresponds to the users profile image
         profileImageViewModel = ViewModelProvider(this)[ProfileImageViewModel::class.java]
-        profileImageViewModel.userImage.observe(requireActivity()) { it ->
+        profileImageViewModel.userImage.observe(viewLifecycleOwner) { it ->
+//            tabLayout.getTabAt(3)?.icon = BitmapDrawable(this.resources, it) used to replace the tab icon with image
             profileImage.setImageBitmap(it)
         }
 

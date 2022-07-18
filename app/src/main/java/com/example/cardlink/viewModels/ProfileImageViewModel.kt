@@ -1,4 +1,4 @@
-package com.example.cardlink
+package com.example.cardlink.viewModels
 
 import android.graphics.Bitmap
 import android.net.Uri

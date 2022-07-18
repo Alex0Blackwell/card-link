@@ -1,18 +1,27 @@
-package com.example.cardlink
+package com.example.cardlink.activities
 
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.cardlink.R
+import com.example.cardlink.adapters.TabPageAdapter
+import com.example.cardlink.viewModels.ProfileImageViewModel
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager:ViewPager2
     private lateinit var tabLayout: TabLayout
+    private lateinit var profileImageViewModel: ProfileImageViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         tabBarSetUp()
+
     }
 
     private fun tabBarSetUp(){
@@ -28,8 +37,13 @@ class MainActivity : AppCompatActivity() {
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 tabLayout.selectTab(tabLayout.getTabAt(position))
+
             }
         })
+
+
+
+
 
         //main activity view pager displays selected tab
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
@@ -44,6 +58,12 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
 
     }
 }
