@@ -12,16 +12,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.cardlink.viewModels.ProfileImageViewModel
 import com.example.cardlink.R
+import com.firebase.ui.auth.AuthUI
 import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ProfileFragment : Fragment() {
@@ -29,13 +35,25 @@ class ProfileFragment : Fragment() {
     private lateinit var profileImageChangeButton: FloatingActionButton
     private lateinit var profileImageViewModel: ProfileImageViewModel
     private lateinit var tabLayout:TabLayout
+    private lateinit var logoutButton: Button
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val ret = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        auth = Firebase.auth
+        logoutButton = ret.findViewById(R.id.logout_button)
+
+        logoutButton.setOnClickListener { _ ->
+            signOut()
+        }
+
+        return ret
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,6 +102,15 @@ class ProfileFragment : Fragment() {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
+    // Reference: https://firebase.google.com/docs/auth/android/firebaseui#sign_in
+    private fun signOut() {
 
+        AuthUI.getInstance()
+            .signOut(requireActivity())
+            .addOnCompleteListener {
+                // Restart app -> redirected to login page
+                recreate(requireActivity())
+            }
+    }
 
 }

@@ -1,17 +1,18 @@
-package com.example.cardlink
+package com.example.cardlink.activities
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cardlink.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+// Reference: https://github.com/firebase/snippets-android/blob/f29858162c455292d3d18c1cc31d6776b299acbd/auth/app/src/main/java/com/google/firebase/quickstart/auth/kotlin/EmailPasswordActivity.kt
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -44,15 +45,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-            reload()
-        }
-    }
-
     private fun createAccount(email: String, password: String) {
         println("debug: attempting to create account user: $email password: $password")
         auth.createUserWithEmailAndPassword(email, password)
@@ -61,14 +53,11 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     println("debug: createUserWithEmail:success")
                     val user = auth.currentUser
-                    //updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    //println("debug: createUserWithEmail:failure")
                     Log.w(TAG, "debug: createUserWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                         Toast.LENGTH_SHORT).show()
-                    updateUI(null)
                 }
             }
     }
@@ -81,11 +70,9 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     println("debug: signInWithEmail:success")
                     val user = auth.currentUser
-                    updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     println("debug: signInWithEmail:failure")
-                    updateUI(null)
                 }
             }
     }
@@ -97,14 +84,6 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 // Email Verification sent
             }
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-
-    }
-
-    private fun reload() {
-
     }
 
     companion object {

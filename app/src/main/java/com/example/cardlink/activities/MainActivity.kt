@@ -13,7 +13,6 @@ import com.example.cardlink.viewModels.ProfileImageViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager:ViewPager2
@@ -52,10 +51,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
-
-
-
         //main activity view pager displays selected tab
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -78,7 +73,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkCurrentUser(): Boolean {
-        // [START check_current_user]
         val user = Firebase.auth.currentUser
         if (user != null) {
             // User is signed in
@@ -88,11 +82,9 @@ class MainActivity : AppCompatActivity() {
             // No user is signed in
             return false
         }
-        // [END check_current_user]
     }
 
     private fun getUserProfile() {
-        // [START get_user_profile]
         val user = Firebase.auth.currentUser
         user?.let {
             // Name, email address, and profile photo Url
@@ -108,11 +100,9 @@ class MainActivity : AppCompatActivity() {
             // FirebaseUser.getToken() instead.
             val uid = user.uid
         }
-        // [END get_user_profile]
     }
 
     private fun getProviderData() {
-        // [START get_provider_data]
         val user = Firebase.auth.currentUser
         user?.let {
             for (profile in it.providerData) {
@@ -128,7 +118,5 @@ class MainActivity : AppCompatActivity() {
                 val photoUrl = profile.photoUrl
             }
         }
-        // [END get_provider_data]
     }
-
 }
