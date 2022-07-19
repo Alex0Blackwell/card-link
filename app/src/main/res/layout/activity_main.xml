@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -40,12 +40,16 @@
             android:icon="@drawable/ic_baseline_people_24"/>
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/profileTab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_baseline_person_24"/>
 
 
     </com.google.android.material.tabs.TabLayout>
+
+
+
 
 
 
