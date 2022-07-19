@@ -1,15 +1,26 @@
-package com.example.cardlink
+package com.example.cardlink.activities
 
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.example.cardlink.R
+import com.example.cardlink.adapters.TabPageAdapter
+import com.example.cardlink.viewModels.ProfileImageViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewPager:ViewPager2
+    private lateinit var tabLayout: TabLayout
+    private lateinit var profileImageViewModel: ProfileImageViewModel
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,6 +37,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun tabBarSetUp(){
 
+        tabLayout = findViewById<TabLayout>(R.id.tabLayout)
+        viewPager = findViewById<ViewPager2>(R.id.viewPager)
+
         //setting up fragment adapter
         val adapter = TabPageAdapter(this, tabLayout.tabCount)
         viewPager.adapter = adapter
@@ -34,8 +48,13 @@ class MainActivity : AppCompatActivity() {
         viewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 tabLayout.selectTab(tabLayout.getTabAt(position))
+
             }
         })
+
+
+
+
 
         //main activity view pager displays selected tab
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
@@ -50,6 +69,11 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+    }
+
+    override fun onResume() {
+        super.onResume()
 
     }
 
@@ -106,4 +130,5 @@ class MainActivity : AppCompatActivity() {
         }
         // [END get_provider_data]
     }
+
 }
