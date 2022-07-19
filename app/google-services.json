@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1060855394476",
+    "project_id": "cardlink-8d22b",
+    "storage_bucket": "cardlink-8d22b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060855394476:android:76be1f5762bcfc68be2f09",
+        "android_client_info": {
+          "package_name": "com.example.cardlink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060855394476-8s99c6sh706mcen20qp9gmje1heha7nr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUaQADeaR1OWvdZZku8bZ-Dn7qKPOgVsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060855394476-8s99c6sh706mcen20qp9gmje1heha7nr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
