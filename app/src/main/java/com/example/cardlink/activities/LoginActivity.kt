@@ -57,7 +57,6 @@ class LoginActivity : AppCompatActivity() {
                     finish()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "debug: createUserWithEmail:failure", task.exception)
