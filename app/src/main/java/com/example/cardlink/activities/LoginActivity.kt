@@ -1,5 +1,6 @@
 package com.example.cardlink.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -53,6 +54,10 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     println("debug: createUserWithEmail:success")
                     val user = auth.currentUser
+                    finish()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "debug: createUserWithEmail:failure", task.exception)
@@ -70,6 +75,9 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     println("debug: signInWithEmail:success")
                     val user = auth.currentUser
+                    finish()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
                     println("debug: signInWithEmail:failure")
