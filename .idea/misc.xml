@@ -3,7 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/ic_baseline_people_24.xml" value="0.4255" />
+        <entry key="app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" value="0.1115" />
         <entry key="app/src/main/res/drawable/ic_baseline_qr_code_scanner_24.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_firebase_ui.xml" value="0.17610809326171858" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.10465116279069768" />
