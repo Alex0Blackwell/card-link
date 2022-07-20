@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.res.ResourcesCompat
@@ -59,6 +60,12 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         profileImageSetUp(view)
+
+        var layout = view.findViewById<LinearLayout>(R.id.mediaLayout)
+        layout.setOnClickListener {
+            val myDialog = ProfileDialogFragment()
+            myDialog.show(requireActivity().supportFragmentManager, "profileFragment")
+        }
     }
 
     //function handles the implementation of a users profile photo
@@ -93,6 +100,9 @@ class ProfileFragment : Fragment() {
                 .createIntentFromDialog { launcher.launch(it) }
         }
     }
+
+
+
 
     //helper function for converting uri to bitmap
     private fun getBitmap(context: Context, imgUri: Uri): Bitmap {
