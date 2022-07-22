@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/layout/fragment_scanning.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_user_qr.xml" value="0.14010416666666667" />
         <entry key="app/src/main/res/layout/item_listview_contact.xml" value="0.5447916666666667" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>
