@@ -71,8 +71,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
-
-
-
+    //external library for the qr scanner https://github.com/yuriy-budiyev/code-scanner
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
 }
