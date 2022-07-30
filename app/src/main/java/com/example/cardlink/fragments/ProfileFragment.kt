@@ -1,6 +1,7 @@
 package com.example.cardlink.fragments
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,12 +9,15 @@ import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.res.ResourcesCompat
@@ -26,8 +30,12 @@ import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -37,7 +45,10 @@ class ProfileFragment : Fragment() {
     private lateinit var profileImageViewModel: ProfileImageViewModel
     private lateinit var tabLayout:TabLayout
     private lateinit var logoutButton: Button
+    private lateinit var emailTextView: TextInputEditText
     private lateinit var auth: FirebaseAuth
+    private lateinit var database: DatabaseReference
+    private lateinit var email: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +58,31 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         val ret = inflater.inflate(R.layout.fragment_profile, container, false)
 
+        // Get database ref
+        database = Firebase.database.reference
         auth = Firebase.auth
+
         logoutButton = ret.findViewById(R.id.logout_button)
+        emailTextView = ret.findViewById(R.id.emailTextField)
+
+        val user = auth.currentUser
+        val userId = user?.uid
+        database = Firebase.database.reference
+
+        if (userId != null) {
+
+            // Gets all values attributed to userId
+            database.child("users").child(userId).get().addOnSuccessListener {
+                println("debug: entire entry ${it.value}")
+
+                // Extract email from entry
+                email = it.child("email").value as String
+                emailTextView.setText(email)
+
+            }.addOnFailureListener{
+                println("debug: firebase Error getting data $it")
+            }
+        }
 
         logoutButton.setOnClickListener { _ ->
             signOut()
@@ -122,5 +156,6 @@ class ProfileFragment : Fragment() {
                 recreate(requireActivity())
             }
     }
+
 
 }

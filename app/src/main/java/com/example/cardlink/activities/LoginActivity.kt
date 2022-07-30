@@ -11,6 +11,11 @@ import com.example.cardlink.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 // Reference: https://github.com/firebase/snippets-android/blob/f29858162c455292d3d18c1cc31d6776b299acbd/auth/app/src/main/java/com/google/firebase/quickstart/auth/kotlin/EmailPasswordActivity.kt
@@ -21,6 +26,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var registerButton: Button
+    private lateinit var database: DatabaseReference
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +60,27 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     println("debug: createUserWithEmail:success")
                     val user = auth.currentUser
+                    val userId = user?.uid
+                    if (userId != null) {
+                        println("debug: uid = $userId")
+
+                        // Initialize database
+                        database = Firebase.database.reference
+
+                        // Create new user entry in db path "users"
+                        // Using userId as user key
+                        val newUser = database.child("users").child(userId)
+
+                        // Add email to user entry
+                        newUser.child("email").setValue(email)
+
+                    }
+
                     finish()
+
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "debug: createUserWithEmail:failure", task.exception)
@@ -73,7 +97,6 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     println("debug: signInWithEmail:success")
-                    val user = auth.currentUser
                     finish()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
