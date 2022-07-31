@@ -52,8 +52,6 @@ class ScanningFragment : Fragment() {
             isAutoFocusEnabled = true
             isFlashEnabled = false
 
-//            decodeCallback = DecodeCallback {}
-
             qrScanner.setOnClickListener {
                 mQrScanner.startPreview()
             }
@@ -69,6 +67,5 @@ class ScanningFragment : Fragment() {
         mQrScanner.releaseResources()
         super.onPause()
     }
-
 
 }
