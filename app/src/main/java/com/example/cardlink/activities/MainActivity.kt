@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cardlink.R
 import com.example.cardlink.adapters.TabPageAdapter
-import com.example.cardlink.viewModels.ProfileImageViewModel
+import com.example.cardlink.viewModels.ProfileViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -17,7 +17,7 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager:ViewPager2
     private lateinit var tabLayout: TabLayout
-    private lateinit var profileImageViewModel: ProfileImageViewModel
+    private lateinit var profileImageViewModel: ProfileViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

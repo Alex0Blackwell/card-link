@@ -1,54 +1,75 @@
 package com.example.cardlink.fragments
 
+import android.R.attr
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.os.Looper
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.recreate
-import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.cardlink.viewModels.ProfileImageViewModel
 import com.example.cardlink.R
+import com.example.cardlink.interfaces.LinkContract
+import com.example.cardlink.viewModels.ProfileViewModel
 import com.firebase.ui.auth.AuthUI
 import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
+import java.io.ByteArrayOutputStream
 
-class ProfileFragment : Fragment() {
+
+class ProfileFragment : Fragment(), LinkContract {
     private lateinit var profileImage: CircleImageView
     private lateinit var profileImageChangeButton: FloatingActionButton
-    private lateinit var profileImageViewModel: ProfileImageViewModel
+    private lateinit var profileViewModel: ProfileViewModel
     private lateinit var tabLayout:TabLayout
+
+    // Buttons
     private lateinit var logoutButton: Button
-    private lateinit var emailTextView: TextInputEditText
+    private lateinit var saveButton: Button
+    private lateinit var cancelButton: Button
+
+
+    private lateinit var nameEditText: TextInputEditText
+    private lateinit var descriptionEditText: TextInputEditText
+    private lateinit var phoneEditText: TextInputEditText
+    private lateinit var emailEditText: TextInputEditText
+    private lateinit var occupationEditText: TextInputEditText
+
+    private lateinit var name: String
+    private lateinit var description: String
+    private lateinit var phone: String
+    private lateinit var email: String
+    private lateinit var occupation: String
+
+
+
+
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
-    private lateinit var email: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,47 +84,132 @@ class ProfileFragment : Fragment() {
         auth = Firebase.auth
 
         logoutButton = ret.findViewById(R.id.logout_button)
-        emailTextView = ret.findViewById(R.id.emailTextField)
+        saveButton = ret.findViewById(R.id.saveButton)
+        cancelButton = ret.findViewById(R.id.cancelButton)
 
-        val user = auth.currentUser
-        val userId = user?.uid
+        nameEditText = ret.findViewById(R.id.nameTextField)
+        descriptionEditText = ret.findViewById(R.id.descriptionTextField)
+        emailEditText = ret.findViewById(R.id.emailTextField)
+        phoneEditText = ret.findViewById(R.id.phoneTextField)
+
+        phoneEditText.addTextChangedListener(PhoneNumberFormattingTextWatcher())
+        occupationEditText = ret.findViewById(R.id.occupationTextField)
+
         database = Firebase.database.reference
 
-        if (userId != null) {
+        setUpProfileInfo()
 
-            // Gets all values attributed to userId
-            database.child("users").child(userId).get().addOnSuccessListener {
-                println("debug: entire entry ${it.value}")
-
-                // Extract email from entry
-                email = it.child("email").value as String
-                emailTextView.setText(email)
-
-            }.addOnFailureListener{
-                println("debug: firebase Error getting data $it")
-            }
-        }
 
         logoutButton.setOnClickListener { _ ->
             signOut()
         }
 
+
+        saveButton.setOnClickListener {
+
+            profileViewModel.userImage.value?.let { it1 -> uploadImage(it1) }
+
+            Thread(Runnable {
+                val mainHandler = Handler(Looper.getMainLooper())
+                if (profileViewModel.updateProfile(
+                        nameEditText.text.toString(),
+                        descriptionEditText.text.toString(),
+                        phoneEditText.text.toString(),
+                        emailEditText.text.toString(),
+                        occupationEditText.text.toString()) != 0) {
+                    var myRunnable = Runnable() {
+                        setUpProfileInfo()
+                        Toast.makeText(requireActivity(), "Error saving profile", Toast.LENGTH_SHORT).show()
+                    };
+                    mainHandler.post(myRunnable);
+                }
+                else {
+                    var myRunnable = Runnable() {
+                        Toast.makeText(requireActivity(), "Profile information saved successfully!", Toast.LENGTH_SHORT).show()
+                    };
+                    mainHandler.post(myRunnable);
+                }
+            }).start()
+        }
+
+        cancelButton.setOnClickListener {
+            setUpProfileInfo()
+            Toast.makeText(requireActivity(), "Changes discarded", Toast.LENGTH_SHORT).show()
+        }
+
+
         return ret
+    }
+
+    fun uploadImage(bitmap:Bitmap){
+        val user = auth.currentUser
+        val userId = user?.uid
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data: ByteArray = baos.toByteArray()
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.getReferenceFromUrl("gs://cardlink-8d22b.appspot.com")
+        val imagesRef = storageRef.child("images/${userId}/profile.jpg")
+        val uploadTask = imagesRef.putBytes(data)
+        uploadTask.addOnFailureListener {
+            println("unsuccessful upload!")
+        }.addOnSuccessListener { taskSnapshot ->
+            println("Successful upload!")
+            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+            // Do what you want
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         profileImageSetUp(view)
 
+
         var layout = view.findViewById<LinearLayout>(R.id.mediaLayout)
         layout.setOnClickListener {
             val myDialog = ProfileDialogFragment()
+            myDialog.setTargetFragment(this, 0)
             myDialog.show(requireActivity().supportFragmentManager, "profileFragment")
         }
     }
 
+
+    private fun setUpProfileInfo() {
+        val user = auth.currentUser
+        val userId = user?.uid
+        if (userId != null) {
+            // Gets all values attributed to userId
+            database.child("users").child(userId).get().addOnSuccessListener {
+                println("debug: entire entry ${it.value}")
+
+                // Extract email from entry
+                name = it.child("name").value as String
+                description = it.child("description").value as String
+                phone = it.child("phoneNumber").value as String
+                email = it.child("email").value as String
+                occupation = it.child("occupation").value as String
+
+                profileViewModel.linkedin = it.child("linkedin").value as String
+                profileViewModel.github = it.child("github").value as String
+                profileViewModel.twitter = it.child("twitter").value as String
+                profileViewModel.facebook = it.child("facebook").value as String
+                profileViewModel.website = it.child("website").value as String
+
+                println("linkedin from vm:  ${profileViewModel.linkedin}")
+
+                nameEditText.setText(name)
+                descriptionEditText.setText(description)
+                phoneEditText.setText(phone)
+                emailEditText.setText(email)
+                occupationEditText.setText(occupation)
+            }.addOnFailureListener{
+                println("debug: firebase Error getting data $it")
+            }
+        }
+    }
+
     //function handles the implementation of a users profile photo
-    private fun profileImageSetUp(view:View){
+    private fun profileImageSetUp(view:View) {
         profileImage = view.findViewById(R.id.profileImage)
 
         tabLayout = requireActivity().findViewById(R.id.tabLayout)
@@ -112,8 +218,8 @@ class ProfileFragment : Fragment() {
 
         //view model observes any changes to ProfileImageViewModel value userImage (type bitmap)
         //userImage corresponds to the users profile image
-        profileImageViewModel = ViewModelProvider(this)[ProfileImageViewModel::class.java]
-        profileImageViewModel.userImage.observe(viewLifecycleOwner) { it ->
+        profileViewModel = ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
+        profileViewModel.userImage.observe(viewLifecycleOwner) { it ->
 //            tabLayout.getTabAt(3)?.icon = BitmapDrawable(this.resources, it) used to replace the tab icon with image
             profileImage.setImageBitmap(it)
         }
@@ -123,7 +229,7 @@ class ProfileFragment : Fragment() {
             if (it.resultCode == Activity.RESULT_OK) {
                 val uri = it.data?.data!!
                 val bitmap = getBitmap(requireActivity(), uri)
-                profileImageViewModel.userImage.value = bitmap
+                profileViewModel.userImage.value = bitmap
             }
         }
 
@@ -134,8 +240,6 @@ class ProfileFragment : Fragment() {
                 .createIntentFromDialog { launcher.launch(it) }
         }
     }
-
-
 
 
     //helper function for converting uri to bitmap
@@ -157,5 +261,12 @@ class ProfileFragment : Fragment() {
             }
     }
 
+    override fun methodToPassMyData(linkedin:String, github:String, facebook:String, twitter:String, website:String) {
+        profileViewModel.linkedin = linkedin
+        profileViewModel.github = github
+        profileViewModel.facebook = facebook
+        profileViewModel.twitter = twitter
+        profileViewModel.website = website
+    }
 
 }

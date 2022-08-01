@@ -10,29 +10,58 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
+import com.example.cardlink.interfaces.LinkContract
 import com.example.cardlink.R
+import com.example.cardlink.viewModels.ProfileViewModel
+import com.google.android.material.textfield.TextInputEditText
 
 class ProfileDialogFragment: DialogFragment() {
+    private lateinit var linkedinText: TextInputEditText
+    private lateinit var githubText: TextInputEditText
+    private lateinit var facebookText: TextInputEditText
+    private lateinit var twitterText: TextInputEditText
+    private lateinit var websiteText: TextInputEditText
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         var builder = AlertDialog.Builder(requireActivity())
-
         // inflate view
         var view: View =
             requireActivity().layoutInflater.inflate(R.layout.profile_dialogfragment, null)
         builder.setView(view)
 
+
+
+        linkedinText = view.findViewById(R.id.linkedinEdit)
+        githubText = view.findViewById(R.id.githubEdit)
+        facebookText = view.findViewById(R.id.fbEdit)
+        twitterText = view.findViewById(R.id.twitterEdit)
+        websiteText = view.findViewById(R.id.websiteEdit)
+        val profileViewModel: ProfileViewModel by activityViewModels()
+        linkedinText.setText(profileViewModel.linkedin)
+        githubText.setText(profileViewModel.github)
+        facebookText.setText(profileViewModel.facebook)
+        twitterText.setText(profileViewModel.twitter)
+        websiteText .setText(profileViewModel.website)
+
         var dialog: Dialog
         // Handlers for when user selects "ok" in a dialog
-        builder.setPositiveButton("ok") { _: DialogInterface, _: Int ->
+        builder.setPositiveButton("Save") { _: DialogInterface, _: Int ->
             // save profile into ViewModel of parent activity
+            // Create new user entry in db path "users"
+            // Using userId as user key
+            Thread(Runnable {
+                profileViewModel.updateProfileLinks(linkedinText.text.toString(),githubText.text.toString(),facebookText.text.toString(),twitterText.text.toString(),websiteText.text.toString())
+            }).start()
+            var mHost = getTargetFragment() as LinkContract
+            mHost.methodToPassMyData(linkedinText.text.toString(),githubText.text.toString(),facebookText.text.toString(),twitterText.text.toString(),websiteText.text.toString())
         }
-        builder.setNegativeButton("cancel") { _: DialogInterface, _: Int ->
+        builder.setNegativeButton("Cancel") { _: DialogInterface, _: Int ->
             dismiss()
         }
-
         dialog=builder.create()
         return dialog
     }
+
 }

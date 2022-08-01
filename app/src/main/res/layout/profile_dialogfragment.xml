@@ -1,90 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    >
-
-    <TextView
-        android:layout_margin="10dp"
-        android:layout_gravity="center"
-        android:textAppearance="?attr/textAppearanceHeadline4"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text = "Social Media Info">
-    </TextView>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/linkedinEdit"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="LinkedIn"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        >
 
-        <com.google.android.material.textfield.TextInputEditText
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text = "Social Media Info">
+        </TextView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/linkedin"
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp">
+        </ImageButton>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            />
+            android:hint="LinkedIn"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/linkedinEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/githubEdit"
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Github"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/github"
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp">
+        </ImageButton>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Github"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/fbEdit"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/githubEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Facebook"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/facebook"
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp">
+        </ImageButton>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            />
+            android:hint="Facebook"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fbEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/twitterEdit"
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Twitter"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/twitter"
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp">
+        </ImageButton>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            />
+            android:hint="Twitter"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/twitterEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameTextField"
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Website"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <ImageButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/link"
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp">
+        </ImageButton>
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            />
+            android:hint="Website"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    </com.google.android.material.textfield.TextInputLayout>
-</LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/websiteEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+    </LinearLayout>
+</ScrollView>

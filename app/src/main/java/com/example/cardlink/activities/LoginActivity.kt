@@ -73,7 +73,15 @@ class LoginActivity : AppCompatActivity() {
 
                         // Add email to user entry
                         newUser.child("email").setValue(email)
-
+                        newUser.child("name").setValue("")
+                        newUser.child("description").setValue("")
+                        newUser.child("phoneNumber").setValue("")
+                        newUser.child("occupation").setValue("")
+                        newUser.child("linkedin").setValue("")
+                        newUser.child("github").setValue("")
+                        newUser.child("facebook").setValue("")
+                        newUser.child("twitter").setValue("")
+                        newUser.child("website").setValue("")
                     }
 
                     finish()
