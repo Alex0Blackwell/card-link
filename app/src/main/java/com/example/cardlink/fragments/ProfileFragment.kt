@@ -76,7 +76,10 @@ class ProfileFragment : Fragment() {
                 println("debug: entire entry ${it.value}")
 
                 // Extract email from entry
-                email = it.child("email").value as String
+                email = ""
+                val _email = it.child("email").value
+                if(_email != null)
+                    email = _email as String
                 emailTextView.setText(email)
 
             }.addOnFailureListener{

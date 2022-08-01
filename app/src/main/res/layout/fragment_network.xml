@@ -5,9 +5,41 @@
     android:layout_height="match_parent"
     tools:context=".fragments.NetworkFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/border"
+            android:padding="10dp"
+            >
+
+            <ImageView
+                android:id="@+id/my_contacts_list_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:contentDescription="@string/profile_image_description"
+                android:src="@drawable/baseline_search_20" />
+
+            <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_marginHorizontal="10dp"
+            android:hint="Search your contacts"
+        />
+        </LinearLayout>
+
     <ListView
         android:id="@+id/list_of_contacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 </FrameLayout>

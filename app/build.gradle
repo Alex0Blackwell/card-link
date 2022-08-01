@@ -67,9 +67,4 @@ dependencies {
 
     //external library for circular image view https://github.com/hdodenhof/CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
-
-
-
-
 }
