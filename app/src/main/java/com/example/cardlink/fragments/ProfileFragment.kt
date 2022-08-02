@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cardlink.R
 import com.example.cardlink.interfaces.LinkContract
+import com.example.cardlink.viewModels.MainViewModel
 import com.example.cardlink.viewModels.ProfileViewModel
 import com.firebase.ui.auth.AuthUI
 import com.github.drjacky.imagepicker.ImagePicker
@@ -42,7 +43,7 @@ import java.io.ByteArrayOutputStream
 class ProfileFragment : Fragment(), LinkContract {
     private lateinit var profileImage: CircleImageView
     private lateinit var profileImageChangeButton: FloatingActionButton
-    private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var profileViewModel: MainViewModel
     private lateinit var tabLayout:TabLayout
 
     // Buttons
@@ -96,7 +97,7 @@ class ProfileFragment : Fragment(), LinkContract {
 
         database = Firebase.database.reference
 
-        setUpProfileInfo()
+        setUpProfileInfo2()
         logoutButton.setOnClickListener { _ ->
             signOut()
         }
@@ -139,41 +140,51 @@ class ProfileFragment : Fragment(), LinkContract {
     }
 
     // https://firebase.google.com/docs/storage/android/upload-files
+    // This function uploads an image to Firestore. The path is "images/${userId}/profile.jpg"
     fun uploadImage(bitmap:Bitmap){
-        val user = auth.currentUser
-        val userId = user?.uid
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data: ByteArray = baos.toByteArray()
-        val storage = FirebaseStorage.getInstance()
-        val storageRef = storage.getReferenceFromUrl("gs://cardlink-8d22b.appspot.com")
-        val imagesRef = storageRef.child("images/${userId}/profile.jpg")
-        val uploadTask = imagesRef.putBytes(data)
-        uploadTask.addOnFailureListener {
-            println("unsuccessful upload!")
-        }.addOnSuccessListener { taskSnapshot ->
-            println("Successful upload!")
-            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-            // Do what you want
-        }
+        Thread(Runnable {
+            val user = auth.currentUser
+            val userId = user?.uid
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data: ByteArray = baos.toByteArray()
+            val storage = FirebaseStorage.getInstance()
+            val storageRef = storage.getReferenceFromUrl("gs://cardlink-8d22b.appspot.com")
+            val imagesRef = storageRef.child("images/${userId}/profile.jpg")
+            val uploadTask = imagesRef.putBytes(data)
+            uploadTask.addOnFailureListener {
+                println("unsuccessful upload!")
+            }.addOnSuccessListener { taskSnapshot ->
+                println("Successful upload!")
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                // Do what you want
+            }
+        }).start()
     }
 
     fun downloadImage() {
-        val user = auth.currentUser
-        val userId = user?.uid
-        val storageReference = FirebaseStorage.getInstance().reference
-        val photoReference = storageReference.child("images/${userId}/profile.jpg")
-        val ONE_MEGABYTE = (1024 * 1024 * 10).toLong()
-        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
-            val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-            profileImage.setImageBitmap(bmp)
-        }.addOnFailureListener {
-            Toast.makeText(
-                requireActivity(),
-                "No Such file or Path found!!",
-                Toast.LENGTH_LONG
-            ).show()
-        }
+        Thread(Runnable {
+            val mainHandler = Handler(Looper.getMainLooper())
+            val user = auth.currentUser
+            val userId = user?.uid
+            val storageReference = FirebaseStorage.getInstance().reference
+            val photoReference = storageReference.child("images/${userId}/profile.jpg")
+            val ONE_MEGABYTE = (1024 * 1024 * 10).toLong()
+
+            photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                var myRunnable = Runnable() {
+                    profileImage.setImageBitmap(bmp)
+                };
+                mainHandler.post(myRunnable);
+            }.addOnFailureListener {
+                Toast.makeText(
+                    requireActivity(),
+                    "No Such file or Path found!!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }).start()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -189,6 +200,14 @@ class ProfileFragment : Fragment(), LinkContract {
         }
     }
 
+    private fun setUpProfileInfo2() {
+        profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+        nameEditText.setText(profileViewModel.name)
+        descriptionEditText.setText(profileViewModel.description)
+        phoneEditText.setText(profileViewModel.phone)
+        emailEditText.setText(profileViewModel.email)
+        occupationEditText.setText(profileViewModel.occupation)
+    }
 
     private fun setUpProfileInfo() {
         val user = auth.currentUser
@@ -235,7 +254,7 @@ class ProfileFragment : Fragment(), LinkContract {
 
         //view model observes any changes to ProfileImageViewModel value userImage (type bitmap)
         //userImage corresponds to the users profile image
-        profileViewModel = ViewModelProvider(requireActivity())[ProfileViewModel::class.java]
+        profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         profileViewModel.userImage.observe(viewLifecycleOwner) { it ->
 //            tabLayout.getTabAt(3)?.icon = BitmapDrawable(this.resources, it) used to replace the tab icon with image
             profileImage.setImageBitmap(it)

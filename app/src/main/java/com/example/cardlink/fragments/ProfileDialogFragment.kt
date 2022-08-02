@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.example.cardlink.interfaces.LinkContract
 import com.example.cardlink.R
+import com.example.cardlink.viewModels.MainViewModel
 import com.example.cardlink.viewModels.ProfileViewModel
 import com.google.android.material.textfield.TextInputEditText
 
@@ -38,7 +39,10 @@ class ProfileDialogFragment: DialogFragment() {
         facebookText = view.findViewById(R.id.fbEdit)
         twitterText = view.findViewById(R.id.twitterEdit)
         websiteText = view.findViewById(R.id.websiteEdit)
-        val profileViewModel: ProfileViewModel by activityViewModels()
+
+        // retrieves a shared view model instantiated in parent activity.
+        val profileViewModel: MainViewModel by activityViewModels()
+
         linkedinText.setText(profileViewModel.linkedin)
         githubText.setText(profileViewModel.github)
         facebookText.setText(profileViewModel.facebook)
@@ -46,15 +50,16 @@ class ProfileDialogFragment: DialogFragment() {
         websiteText .setText(profileViewModel.website)
 
         var dialog: Dialog
-        // Handlers for when user selects "ok" in a dialog
+
+        // Handlers for when user selects "ok" in a dialog.
         builder.setPositiveButton("Save") { _: DialogInterface, _: Int ->
-            // save profile into ViewModel of parent activity
-            // Create new user entry in db path "users"
-            // Using userId as user key
+            // Calls profileViewModel's (MainViewModel) updateProfileLinks function to update the record and also the fields in the ViewModel.
             Thread(Runnable {
                 profileViewModel.updateProfileLinks(linkedinText.text.toString(),githubText.text.toString(),facebookText.text.toString(),twitterText.text.toString(),websiteText.text.toString())
             }).start()
             var mHost = getTargetFragment() as LinkContract
+
+            // not sure if this is needed.
             mHost.methodToPassMyData(linkedinText.text.toString(),githubText.text.toString(),facebookText.text.toString(),twitterText.text.toString(),websiteText.text.toString())
         }
         builder.setNegativeButton("Cancel") { _: DialogInterface, _: Int ->
