@@ -1,6 +1,5 @@
 package com.example.cardlink.fragments
 
-import android.R.attr
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
@@ -98,8 +97,6 @@ class ProfileFragment : Fragment(), LinkContract {
         database = Firebase.database.reference
 
         setUpProfileInfo()
-
-
         logoutButton.setOnClickListener { _ ->
             signOut()
         }
@@ -141,6 +138,7 @@ class ProfileFragment : Fragment(), LinkContract {
         return ret
     }
 
+    // https://firebase.google.com/docs/storage/android/upload-files
     fun uploadImage(bitmap:Bitmap){
         val user = auth.currentUser
         val userId = user?.uid
@@ -157,6 +155,24 @@ class ProfileFragment : Fragment(), LinkContract {
             println("Successful upload!")
             // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
             // Do what you want
+        }
+    }
+
+    fun downloadImage() {
+        val user = auth.currentUser
+        val userId = user?.uid
+        val storageReference = FirebaseStorage.getInstance().reference
+        val photoReference = storageReference.child("images/${userId}/profile.jpg")
+        val ONE_MEGABYTE = (1024 * 1024 * 10).toLong()
+        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+            val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+            profileImage.setImageBitmap(bmp)
+        }.addOnFailureListener {
+            Toast.makeText(
+                requireActivity(),
+                "No Such file or Path found!!",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -178,6 +194,7 @@ class ProfileFragment : Fragment(), LinkContract {
         val user = auth.currentUser
         val userId = user?.uid
         if (userId != null) {
+            downloadImage()
             // Gets all values attributed to userId
             database.child("users").child(userId).get().addOnSuccessListener {
                 println("debug: entire entry ${it.value}")
