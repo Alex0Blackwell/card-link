@@ -3,13 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.225" />
-        <entry key="app/src/main/res/layout/dialog_business_card.xml" value="0.225" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.13632246376811594" />
-        <entry key="app/src/main/res/layout/profile_dialogfragment.xml" value="0.225" />
+        <entry key="app/src/main/res/drawable-v24/qr_background.xml" value="0.1745" />
         <entry key="app/src/main/res/drawable/baseline_push_pin_20.xml" value="0.235" />
         <entry key="app/src/main/res/drawable/border.xml" value="0.235" />
         <entry key="app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" value="0.1115" />
+        <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.235" />
         <entry key="app/src/main/res/drawable/ic_baseline_qr_code_scanner_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/recent.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/schedule-48px.xml" value="0.234" />
@@ -20,9 +18,11 @@
         <entry key="app/src/main/res/layout/fragment_network.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_scanning.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_user_qr.xml" value="0.14010416666666667" />
+        <entry key="app/src/main/res/layout/fragment_user_qr.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_listview_contact.xml" value="0.5447916666666667" />
+        <entry key="app/src/main/res/layout/profile_dialogfragment.xml" value="0.5458333333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/searchable.xml" value="0.5458333333333333" />
       </map>
     </option>
   </component>

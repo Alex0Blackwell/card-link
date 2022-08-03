@@ -59,11 +59,7 @@ class MainActivity : AppCompatActivity() {
                         mainViewModel.userImage.value = bmp
                         println("Image finished downloading from Main!")
                     }.addOnFailureListener {
-                        Toast.makeText(
-                            this,
-                            "No previous profile image saved!",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        println("warn: No previous profile image saved!")
                     }
 
                     // Retrieve user's profile information based on uuid
