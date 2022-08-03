@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cardlink.R
+import com.example.cardlink.Util
 import com.example.cardlink.interfaces.LinkContract
 import com.example.cardlink.viewModels.MainViewModel
 import com.example.cardlink.viewModels.ProfileViewModel
@@ -219,17 +220,17 @@ class ProfileFragment : Fragment(), LinkContract {
                 println("debug: entire entry ${it.value}")
 
                 // Extract email from entry
-                name = it.child("name").value as String
-                description = it.child("description").value as String
-                phone = it.child("phoneNumber").value as String
-                email = it.child("email").value as String
-                occupation = it.child("occupation").value as String
+                name = Util.asString(it.child("name").value)
+                description = Util.asString(it.child("description").value)
+                phone = Util.asString(it.child("phoneNumber").value)
+                email = Util.asString(it.child("email").value)
+                occupation = Util.asString(it.child("occupation").value)
 
-                profileViewModel.linkedin = it.child("linkedin").value as String
-                profileViewModel.github = it.child("github").value as String
-                profileViewModel.twitter = it.child("twitter").value as String
-                profileViewModel.facebook = it.child("facebook").value as String
-                profileViewModel.website = it.child("website").value as String
+                profileViewModel.linkedin = Util.asString(it.child("linkedin").value)
+                profileViewModel.github = Util.asString(it.child("github").value)
+                profileViewModel.twitter = Util.asString(it.child("twitter").value)
+                profileViewModel.facebook = Util.asString(it.child("facebook").value)
+                profileViewModel.website = Util.asString(it.child("website").value)
 
                 println("linkedin from vm:  ${profileViewModel.linkedin}")
 

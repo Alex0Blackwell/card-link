@@ -5,9 +5,99 @@
     android:layout_height="match_parent"
     tools:context=".fragments.NetworkFragment">
 
-    <ListView
-        android:id="@+id/list_of_contacts"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:elevation="4dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/border"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/my_contacts_list_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:contentDescription="@string/profile_image_description"
+                android:src="@drawable/baseline_search_20" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_marginHorizontal="10dp"
+                android:hint="@string/search_contacts_hint" />
+
+        </LinearLayout>
+
+        <!-- Pinned text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/profile_image_description"
+                android:src="@drawable/baseline_push_pin_20" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Pinned"/>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/list_of_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Recent text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/profile_image_description"
+                android:src="@drawable/recent" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="Recent"/>
+        </LinearLayout>
+
+        <!-- All contacts text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="All Contacts"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="Group by: Name"/>
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

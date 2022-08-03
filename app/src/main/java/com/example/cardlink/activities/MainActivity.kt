@@ -12,6 +12,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cardlink.R
+import com.example.cardlink.Util
 import com.example.cardlink.adapters.TabPageAdapter
 import com.example.cardlink.viewModels.MainViewModel
 import com.example.cardlink.viewModels.ProfileViewModel
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             val userId = user?.uid
             if (userId != null) {
                 val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-                progressBar.setVisibility(View.VISIBLE);
+                progressBar.visibility = View.VISIBLE;
                 // Download the user's profile picture
                 Thread(Runnable {
                     val storageReference = FirebaseStorage.getInstance().reference
@@ -58,11 +59,7 @@ class MainActivity : AppCompatActivity() {
                         mainViewModel.userImage.value = bmp
                         println("Image finished downloading from Main!")
                     }.addOnFailureListener {
-                        Toast.makeText(
-                            this,
-                            "No previous profile image saved!",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        println("warn: No previous profile image saved!")
                     }
 
                     // Retrieve user's profile information based on uuid
@@ -70,17 +67,17 @@ class MainActivity : AppCompatActivity() {
                         println("debug: entire entry ${it.value}")
 
                         // Extract fields from entry
-                        mainViewModel.name = it.child("name").value as String
-                        mainViewModel.description = it.child("description").value as String
-                        mainViewModel.phone = it.child("phoneNumber").value as String
-                        mainViewModel.email = it.child("email").value as String
-                        mainViewModel.occupation = it.child("occupation").value as String
+                        mainViewModel.name = Util.asString(it.child("name").value)
+                        mainViewModel.description = Util.asString(it.child("description").value)
+                        mainViewModel.phone = Util.asString(it.child("phoneNumber").value)
+                        mainViewModel.email = Util.asString(it.child("email").value)
+                        mainViewModel.occupation = Util.asString(it.child("occupation").value)
 
-                        mainViewModel.linkedin = it.child("linkedin").value as String
-                        mainViewModel.github = it.child("github").value as String
-                        mainViewModel.twitter = it.child("twitter").value as String
-                        mainViewModel.facebook = it.child("facebook").value as String
-                        mainViewModel.website = it.child("website").value as String
+                        mainViewModel.linkedin = Util.asString(it.child("linkedin").value)
+                        mainViewModel.github = Util.asString(it.child("github").value)
+                        mainViewModel.twitter = Util.asString(it.child("twitter").value)
+                        mainViewModel.facebook = Util.asString(it.child("facebook").value)
+                        mainViewModel.website = Util.asString(it.child("website").value)
 
                         println("Information finished downloading from Main!")
                         progressBar.setVisibility(View.GONE);
@@ -88,10 +85,7 @@ class MainActivity : AppCompatActivity() {
                         println("debug: firebase Error getting data $it")
                     }
                 }).start()
-
             }
-
-
         } else {
             println("debug: not authenticated")
             val intent = Intent(this, LoginActivity::class.java)

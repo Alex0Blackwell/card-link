@@ -4,6 +4,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
     <stroke
-        android:width="8dp"
+        android:width="2dp"
         android:color="@color/black" />
 </shape>

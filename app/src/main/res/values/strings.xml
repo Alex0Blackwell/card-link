@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Cardlink</string>
     <string name="profile_image_description">Profile Image</string>
+    <string name="search_contacts_hint">Search your contacts</string>
+    <string name="my_card_text">People can scan your QR-code to add you as a connection!</string>
 
 </resources>
