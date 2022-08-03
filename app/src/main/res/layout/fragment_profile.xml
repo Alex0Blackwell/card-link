@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProfileFragment">
+    tools:context=".fragments.ProfileFragment"
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/black"
-        app:cardElevation="0dp">
-        >
+<!--    <ProgressBar-->
+<!--        android:id="@+id/progress_bar"-->
+<!--        style="@style/Base.Widget.AppCompat.ProgressBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:indeterminate="true"-->
+<!--        android:visibility="visible" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,13 +70,13 @@
 
                 <!-- Title, secondary and supporting text -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nameTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Your Name"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/nameTextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceHeadline5"
@@ -88,13 +92,13 @@
                 <!--                android:textAppearance="?attr/textAppearanceHeadline3"-->
                 <!--                />-->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/outlinedTextField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="About Me"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/descriptionTextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceBody2"
@@ -102,22 +106,22 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/phoneText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Phone Number"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/phoneTextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceBody2"
+                        android:inputType="phone"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/emailText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
@@ -132,13 +136,13 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/occupationText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Occupation"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/occupationTextField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceBody2"
@@ -167,33 +171,38 @@
                     <ImageButton
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/linkedin">
+                        android:background="@drawable/linkedin"
+                        android:clickable="false">
                     </ImageButton>
 
                     <ImageButton
                         android:layout_marginLeft="20dp"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/github">
+                        android:background="@drawable/github"
+                        android:clickable="false">
                     </ImageButton>
 
                     <ImageButton
                         android:layout_marginLeft="20dp"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/facebook"/>
+                        android:background="@drawable/facebook"
+                        android:clickable="false"/>
 
                     <ImageButton
                         android:layout_marginLeft="20dp"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/twitter"/>
+                        android:background="@drawable/twitter"
+                        android:clickable="false"/>
 
                     <ImageButton
                         android:layout_marginLeft="20dp"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:background="@drawable/link"/>
+                        android:background="@drawable/link"
+                        android:clickable="false"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -204,6 +213,7 @@
                 android:orientation="horizontal"
                 android:weightSum="10">
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/saveButton"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:text="Save"
@@ -217,6 +227,7 @@
                     android:layout_weight="2" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancelButton"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:text="Cancel"
@@ -227,10 +238,6 @@
 
 
         </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-
-
 </LinearLayout>
+</ScrollView>
 
