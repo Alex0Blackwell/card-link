@@ -13,13 +13,16 @@
         <entry key="app/src/main/res/drawable/ic_baseline_qr_code_scanner_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/mail-48px.xml" value="0.363" />
         <entry key="app/src/main/res/drawable/mail_icon.xml" value="0.363" />
+        <entry key="app/src/main/res/drawable/person-48px(1).xml" value="0.363" />
+        <entry key="app/src/main/res/drawable/person-48px.xml" value="0.363" />
+        <entry key="app/src/main/res/drawable/person_icon.xml" value="0.363" />
         <entry key="app/src/main/res/drawable/phone_icon.xml" value="0.363" />
         <entry key="app/src/main/res/drawable/recent.xml" value="0.234" />
         <entry key="app/src/main/res/drawable/schedule-48px.xml" value="0.234" />
         <entry key="app/src/main/res/layout/activity_firebase_ui.xml" value="0.17610809326171858" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.10465116279069768" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14010416666666667" />
-        <entry key="app/src/main/res/layout/dialog_business_card.xml" value="0.19429590017825313" />
+        <entry key="app/src/main/res/layout/dialog_business_card.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_network.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_scanning.xml" value="0.1" />

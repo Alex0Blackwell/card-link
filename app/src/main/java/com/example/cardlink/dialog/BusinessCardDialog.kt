@@ -2,6 +2,8 @@ package com.example.cardlink.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -27,15 +29,15 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
 
         val dialog = AlertDialog.Builder(requireActivity())
             .setView(businessCardDialogView)
-            .setTitle("Business Card")
-            .setNegativeButton("cancel",this)
             .create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
-        dialog.findViewById<TextView>(R.id.business_card_dialog_name)?.text = contact.name
-        dialog.findViewById<TextView>(R.id.business_card_dialog_occupation)?.text = contact.occupation
-        dialog.findViewById<TextView>(R.id.business_card_dialog_bio)?.text = contact.bio
-        dialog.findViewById<TextView>(R.id.business_card_dialog_github)?.text = contact.github
+        dialog.findViewById<TextView>(R.id.network_card_name)?.text = contact.name
+        dialog.findViewById<TextView>(R.id.network_card_occupation)?.text = contact.occupation
+        dialog.findViewById<TextView>(R.id.network_card_description)?.text = contact.bio
+//        dialog.findViewById<TextView>(R.id.network_car)?.text = contact.github
         // TODO: Set profile photo when we have real data
 
         return dialog
