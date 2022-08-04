@@ -67,6 +67,18 @@ class MainActivity : AppCompatActivity() {
                     database.child("users").child(userId).get().addOnSuccessListener {
                         println("debug: entire entry ${it.value}")
 
+                        mainViewModel.liveName.postValue(Util.asString(it.child("name").value))
+                        mainViewModel.liveDescription.postValue(Util.asString(it.child("description").value))
+                        mainViewModel.livePhone.postValue(Util.asString(it.child("phoneNumber").value))
+                        mainViewModel.liveEmail.postValue(Util.asString(it.child("email").value))
+                        mainViewModel.liveOccupation.postValue(Util.asString(it.child("occupation").value))
+
+                        mainViewModel.liveLinkedIn.postValue(Util.asString(it.child("linkedin").value))
+                        mainViewModel.liveGithub.postValue(Util.asString(it.child("github").value))
+                        mainViewModel.liveTwitter.postValue(Util.asString(it.child("twitter").value))
+                        mainViewModel.liveFacebook.postValue(Util.asString(it.child("facebook").value))
+                        mainViewModel.liveWebsite.postValue(Util.asString(it.child("website").value))
+
                         // Extract fields from entry
                         mainViewModel.name = Util.asString(it.child("name").value)
                         mainViewModel.description = Util.asString(it.child("description").value)
@@ -181,4 +193,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }
+
+
+

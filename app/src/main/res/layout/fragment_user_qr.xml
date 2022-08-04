@@ -37,6 +37,7 @@
             android:id = "@+id/qrImg"/>
 
         <LinearLayout
+            android:id="@+id/my_card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="4dp"
@@ -51,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImage"
+                    android:id="@+id/my_card_profile_image"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:src="@drawable/ic_baseline_person_24"
@@ -98,13 +99,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:contentDescription="@string/profile_image_description"
-                    android:src="@drawable/baseline_push_pin_20" />
+                    android:src="@drawable/phone_icon" />
 
                 <TextView
                     android:id="@+id/my_card_phone"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="(123) 555-4567"/>
@@ -117,13 +119,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:contentDescription="@string/profile_image_description"
-                    android:src="@drawable/baseline_push_pin_20" />
+                    android:src="@drawable/mail_icon" />
 
                 <TextView
                     android:id="@+id/my_card_email"
+                    android:layout_marginLeft="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="your.email@example.com"/>
