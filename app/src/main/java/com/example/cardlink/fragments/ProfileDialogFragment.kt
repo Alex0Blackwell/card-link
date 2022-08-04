@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import com.example.cardlink.interfaces.LinkContract
 import com.example.cardlink.R
 import com.example.cardlink.viewModels.MainViewModel
-import com.example.cardlink.viewModels.ProfileViewModel
 import com.google.android.material.textfield.TextInputEditText
 
 class ProfileDialogFragment: DialogFragment() {

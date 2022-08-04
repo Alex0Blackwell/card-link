@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
@@ -15,7 +16,7 @@ import com.example.cardlink.R
 import com.example.cardlink.Util
 import com.example.cardlink.adapters.TabPageAdapter
 import com.example.cardlink.viewModels.MainViewModel
-import com.example.cardlink.viewModels.ProfileViewModel
+//import com.example.cardlink.viewModels.ProfileViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -28,7 +29,6 @@ import com.google.firebase.storage.FirebaseStorage
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager:ViewPager2
     private lateinit var tabLayout: TabLayout
-    private lateinit var profileImageViewModel: ProfileViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main)
         tabBarSetUp()
         val isAuth = checkCurrentUser()
