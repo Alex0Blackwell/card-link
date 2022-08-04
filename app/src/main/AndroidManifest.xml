@@ -4,6 +4,9 @@
     package="com.example.cardlink">
 
     <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- To increase the screen brightness -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions"/>
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false"/>

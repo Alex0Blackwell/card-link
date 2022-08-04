@@ -24,7 +24,6 @@ import com.example.cardlink.R
 import com.example.cardlink.Util
 import com.example.cardlink.interfaces.LinkContract
 import com.example.cardlink.viewModels.MainViewModel
-import com.example.cardlink.viewModels.ProfileViewModel
 import com.firebase.ui.auth.AuthUI
 import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider

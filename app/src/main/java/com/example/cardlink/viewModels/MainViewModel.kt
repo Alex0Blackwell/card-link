@@ -24,6 +24,17 @@ class MainViewModel: ViewModel() {
     private val user = auth.currentUser
     private val userId = user?.uid
 
+    val liveName = MutableLiveData<String>()
+    val liveDescription = MutableLiveData<String>()
+    val livePhone = MutableLiveData<String>()
+    val liveEmail = MutableLiveData<String>()
+    val liveOccupation = MutableLiveData<String>()
+    val liveLinkedIn = MutableLiveData<String>()
+    val liveGithub = MutableLiveData<String>()
+    val liveTwitter = MutableLiveData<String>()
+    val liveWebsite = MutableLiveData<String>()
+    val liveFacebook= MutableLiveData<String>()
+
     var name = ""
     var description = ""
     var phone = ""
@@ -46,12 +57,17 @@ class MainViewModel: ViewModel() {
             currUser.child("occupation").setValue(occupation)
 
             // update viewmodel values
+            liveName.postValue(name)
+            liveDescription.postValue(description)
+            livePhone.postValue(phone)
+            liveEmail.postValue(email)
+            liveOccupation.postValue(occupation)
+
             this.name = name
             this.description = description
             this.phone = phone
             this.email = email
             this.occupation = occupation
-
 
             return 0
         }
@@ -66,6 +82,12 @@ class MainViewModel: ViewModel() {
             currUser.child("facebook").setValue(facebook)
             currUser.child("twitter").setValue(twitter)
             currUser.child("website").setValue(website)
+
+            liveLinkedIn.postValue(linkedin)
+            liveGithub.postValue(github)
+            liveTwitter.postValue(twitter)
+            liveWebsite.postValue(website)
+            liveFacebook.postValue(facebook)
 
             // update viewmodel values
             this.linkedin = linkedin
