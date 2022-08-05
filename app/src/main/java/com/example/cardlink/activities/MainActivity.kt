@@ -63,6 +63,8 @@ class MainActivity : AppCompatActivity() {
                         println("warn: No previous profile image saved!")
                     }
 
+                    mainViewModel.updateMyConnectionsViewModel()
+
                     // Retrieve user's profile information based on uuid
                     database.child("users").child(userId).get().addOnSuccessListener {
                         println("debug: entire entry ${it.value}")

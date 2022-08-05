@@ -25,21 +25,6 @@ class NetworkFragment : Fragment() {
 
         profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
 
-        val myContactsListView = view.findViewById<ListView>(R.id.list_of_contacts)
-
-        val contactAdapter = ContactAdapter(requireActivity(), mockedContacts)
-
-        myContactsListView.adapter = contactAdapter
-
-        myContactsListView.setOnItemClickListener { _, item: View, _, _ ->
-            val contact = item.tag as ContactAdapter.ViewHolder
-            val businessCardDialog = BusinessCardDialog()
-            val bundleUpPrimaryKey = Bundle()
-            bundleUpPrimaryKey.putInt(BusinessCardDialog.contactPrimaryKeyIdentifier, contact.primaryKey)
-            businessCardDialog.arguments = bundleUpPrimaryKey
-            businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
-        }
-
         setupObservers(view)
 
         return view
@@ -47,7 +32,20 @@ class NetworkFragment : Fragment() {
 
     private fun setupObservers(view: View) {
         profileViewModel.myConnections.observe(viewLifecycleOwner) {
-            println("debug: got change in network page $it")
+            val myContactsListView = view.findViewById<ListView>(R.id.list_of_contacts)
+
+            val contactAdapter = ContactAdapter(requireActivity(), it)
+
+            myContactsListView.adapter = contactAdapter
+
+            myContactsListView.setOnItemClickListener { _, item: View, _, _ ->
+                val contact = item.tag as ContactAdapter.ViewHolder
+                val businessCardDialog = BusinessCardDialog()
+                val bundleUpPrimaryKey = Bundle()
+                bundleUpPrimaryKey.putString(BusinessCardDialog.contactPrimaryKeyIdentifier, contact.primaryKey)
+                businessCardDialog.arguments = bundleUpPrimaryKey
+                businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
+            }
         }
     }
 }

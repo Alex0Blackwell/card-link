@@ -8,11 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.cardlink.R
 import com.example.cardlink.dataLayer.MockContact
+import com.example.cardlink.dataLayer.Person
 
 
 class ContactAdapter(
     private val context: Context,
-    private var contactList: ArrayList<MockContact>
+    private var contactList: ArrayList<Person>
 ): BaseAdapter() {
     private var myViewConverter: View? = null
     private var viewHolder: ViewHolder? = null
@@ -21,14 +22,14 @@ class ContactAdapter(
         val name: TextView,
         val occupation: TextView,
         val photo: ImageView,
-        var primaryKey: Int = 0,
+        var primaryKey: String = "",
     )
 
     override fun getCount(): Int {
         return contactList.size
     }
 
-    override fun getItem(position: Int): MockContact {
+    override fun getItem(position: Int): Person {
         return contactList[position]
     }
 

@@ -8,6 +8,7 @@ import com.example.cardlink.Util
 import com.example.cardlink.dataLayer.Person
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -48,6 +49,7 @@ class MainViewModel: ViewModel() {
     var facebook = ""
 
     fun addConnection(receiverUserId: String) {
+        // Note we have to embed all these promises because of async.
         if(userId != null) {
             try {
                 val requesterUserRef = database.child("users").child(userId)
@@ -55,15 +57,21 @@ class MainViewModel: ViewModel() {
 
                 requesterUserRef.get().addOnSuccessListener { requesterUser ->
                     receiverUserRef.get().addOnSuccessListener { receiverUser ->
-                        println("debug: requester ${requesterUser.value}")
-                        println("debug: receiver ${receiverUser.value}")
+                        if(requesterUser.exists() and receiverUser.exists()) {
+                            val requesterConnectionRef = database.child("connections").child(userId)
+                            val receiverConnectionRef = database.child("connections").child(receiverUserId)
 
-                        val requesterConnectionRef = database.child("connections").child(userId)
-                        val receiverConnectionRef = database.child("connections").child(receiverUserId)
-
-                        receiverConnectionRef.push().setValue(requesterUser.value)
-                        requesterConnectionRef.push().setValue(receiverUser.value).addOnSuccessListener {
-                            updateMyConnectionsViewModel()
+                            receiverConnectionRef.get().addOnSuccessListener {
+                                if(idIsNew(userId, it))
+                                    receiverConnectionRef.push().setValue(userId)
+                            }
+                            requesterConnectionRef.get().addOnSuccessListener {
+                                if(idIsNew(receiverUserId, it)) {
+                                    requesterConnectionRef.push().setValue(receiverUserId).addOnSuccessListener {
+                                        updateMyConnectionsViewModel()
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -73,29 +81,51 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    private fun updateMyConnectionsViewModel() {
+    private fun idIsNew(id: String, connections: DataSnapshot): Boolean {
+        var isNew = true
+        for(existingId in connections.children) {
+            if(id == existingId.value)
+                isNew = false
+        }
+        return isNew
+    }
+
+    /**
+     * Update the view model to have information on the user's connections so we don't have to hit
+     * Firebase each time the network tab opens.
+     */
+    fun updateMyConnectionsViewModel() {
         if(userId != null) {
             val myConnectionRef = database.child("connections").child(userId)
 
-            myConnectionRef.get().addOnSuccessListener { connections ->
-                val connectionsFromDb = arrayListOf<Person>()
-                for(connection in connections.children) {
-                    val person = Person(
-                        Util.asString(connection.child("name").value),
-                        Util.asString(connection.child("description").value),
-                        Util.asString(connection.child("phoneNumber").value),
-                        Util.asString(connection.child("email").value),
-                        Util.asString(connection.child("occupation").value),
-                        Util.asString(connection.child("linkedin").value),
-                        Util.asString(connection.child("github").value),
-                        Util.asString(connection.child("facebook").value),
-                        Util.asString(connection.child("twitter").value)
-                    )
-                    connectionsFromDb.add(person)
-                }
+            // Get all the connection IDs
+            myConnectionRef.get().addOnSuccessListener { connectionIds ->
+                myConnections.value = arrayListOf()
+                for(connectionId in connectionIds.children) {
+                    val connectionRef = database.child("users").child(connectionId.value as String)
+                    connectionRef.get().addOnSuccessListener {
+                        val person = Person(
+                            Util.asString(connectionId.value),
+                            Util.asString(it.child("name").value),
+                            Util.asString(it.child("description").value),
+                            Util.asString(it.child("phoneNumber").value),
+                            Util.asString(it.child("email").value),
+                            Util.asString(it.child("occupation").value),
+                            Util.asString(it.child("linkedin").value),
+                            Util.asString(it.child("github").value),
+                            Util.asString(it.child("facebook").value),
+                            Util.asString(it.child("twitter").value)
+                        )
 
-                println("debug: Adding to my connections $connectionsFromDb")
-                myConnections.postValue(connectionsFromDb)
+                        val allConnections = arrayListOf<Person>()
+                        val currentConnections = myConnections.value
+                        allConnections.add(person)
+                        if(currentConnections != null)
+                            allConnections.addAll(currentConnections)
+
+                        myConnections.postValue(allConnections)
+                    }
+                }
             }
         }
     }
