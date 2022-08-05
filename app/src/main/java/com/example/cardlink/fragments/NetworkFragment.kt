@@ -9,7 +9,6 @@ import com.example.cardlink.R
 import android.widget.ListView
 import androidx.lifecycle.ViewModelProvider
 import com.example.cardlink.adapter.ContactAdapter
-import com.example.cardlink.dataLayer.Mock.Companion.mockedContacts
 import com.example.cardlink.dialog.BusinessCardDialog
 import com.example.cardlink.viewModels.MainViewModel
 
@@ -41,9 +40,18 @@ class NetworkFragment : Fragment() {
             myContactsListView.setOnItemClickListener { _, item: View, _, _ ->
                 val contact = item.tag as ContactAdapter.ViewHolder
                 val businessCardDialog = BusinessCardDialog()
-                val bundleUpPrimaryKey = Bundle()
-                bundleUpPrimaryKey.putString(BusinessCardDialog.contactPrimaryKeyIdentifier, contact.primaryKey)
-                businessCardDialog.arguments = bundleUpPrimaryKey
+                val bundleUpPersonInfo = Bundle()
+                bundleUpPersonInfo.putString(BusinessCardDialog.nameKey, contact.person.name)
+                bundleUpPersonInfo.putString(BusinessCardDialog.descriptionKey, contact.person.description)
+                bundleUpPersonInfo.putString(BusinessCardDialog.phoneKey, contact.person.phone)
+                bundleUpPersonInfo.putString(BusinessCardDialog.emailKey, contact.person.email)
+                bundleUpPersonInfo.putString(BusinessCardDialog.occupationKey, contact.person.occupation)
+                bundleUpPersonInfo.putString(BusinessCardDialog.linkedInKey, contact.person.linkedIn)
+                bundleUpPersonInfo.putString(BusinessCardDialog.githubKey, contact.person.github)
+                bundleUpPersonInfo.putString(BusinessCardDialog.facebookKey, contact.person.facebook)
+                bundleUpPersonInfo.putString(BusinessCardDialog.twitterKey, contact.person.twitter)
+                bundleUpPersonInfo.putString(BusinessCardDialog.websiteKey, contact.person.website)
+                businessCardDialog.arguments = bundleUpPersonInfo
                 businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
             }
         }

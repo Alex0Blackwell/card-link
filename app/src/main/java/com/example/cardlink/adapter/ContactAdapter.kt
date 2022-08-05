@@ -7,7 +7,6 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.cardlink.R
-import com.example.cardlink.dataLayer.MockContact
 import com.example.cardlink.dataLayer.Person
 
 
@@ -23,6 +22,7 @@ class ContactAdapter(
         val occupation: TextView,
         val photo: ImageView,
         var primaryKey: String = "",
+        var person: Person = Person()
     )
 
     override fun getCount(): Int {
@@ -47,6 +47,7 @@ class ContactAdapter(
         viewHolder?.primaryKey = contact.primaryKey
         viewHolder?.name?.text = contact.name
         viewHolder?.occupation?.text = contact.occupation
+        viewHolder?.person = contact
         // TODO: Add profile photo when data is not mocked
 
         return myViewConverter!!
