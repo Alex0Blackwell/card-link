@@ -2,15 +2,13 @@ package com.example.cardlink.viewModels
 
 
 import android.graphics.Bitmap
-import android.net.Uri
-import android.text.Editable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.cardlink.Util
+import com.example.cardlink.dataLayer.Person
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
 class MainViewModel: ViewModel() {
@@ -23,6 +21,8 @@ class MainViewModel: ViewModel() {
     var auth: FirebaseAuth = Firebase.auth
     private val user = auth.currentUser
     private val userId = user?.uid
+
+    val myConnections = MutableLiveData<ArrayList<Person>>()
 
     val liveName = MutableLiveData<String>()
     val liveDescription = MutableLiveData<String>()
@@ -46,6 +46,59 @@ class MainViewModel: ViewModel() {
     var twitter = ""
     var website = ""
     var facebook = ""
+
+    fun addConnection(receiverUserId: String) {
+        if(userId != null) {
+            try {
+                val requesterUserRef = database.child("users").child(userId)
+                val receiverUserRef = database.child("users").child(receiverUserId)
+
+                requesterUserRef.get().addOnSuccessListener { requesterUser ->
+                    receiverUserRef.get().addOnSuccessListener { receiverUser ->
+                        println("debug: requester ${requesterUser.value}")
+                        println("debug: receiver ${receiverUser.value}")
+
+                        val requesterConnectionRef = database.child("connections").child(userId)
+                        val receiverConnectionRef = database.child("connections").child(receiverUserId)
+
+                        receiverConnectionRef.push().setValue(requesterUser.value)
+                        requesterConnectionRef.push().setValue(receiverUser.value).addOnSuccessListener {
+                            updateMyConnectionsViewModel()
+                        }
+                    }
+                }
+            } catch (ex: Exception) {
+                println("debug: getting the requester or receiver info failed")
+            }
+        }
+    }
+
+    private fun updateMyConnectionsViewModel() {
+        if(userId != null) {
+            val myConnectionRef = database.child("connections").child(userId)
+
+            myConnectionRef.get().addOnSuccessListener { connections ->
+                val connectionsFromDb = arrayListOf<Person>()
+                for(connection in connections.children) {
+                    val person = Person(
+                        Util.asString(connection.child("name").value),
+                        Util.asString(connection.child("description").value),
+                        Util.asString(connection.child("phoneNumber").value),
+                        Util.asString(connection.child("email").value),
+                        Util.asString(connection.child("occupation").value),
+                        Util.asString(connection.child("linkedin").value),
+                        Util.asString(connection.child("github").value),
+                        Util.asString(connection.child("facebook").value),
+                        Util.asString(connection.child("twitter").value)
+                    )
+                    connectionsFromDb.add(person)
+                }
+
+                println("debug: Adding to my connections $connectionsFromDb")
+                myConnections.postValue(connectionsFromDb)
+            }
+        }
+    }
 
     fun updateProfile(name: String, description: String, phone: String, email: String, occupation: String):Int{
         if (userId != null) {
@@ -100,5 +153,4 @@ class MainViewModel: ViewModel() {
         }
         return -1
     }
-
 }

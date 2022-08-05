@@ -7,17 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.cardlink.R
 import android.widget.ListView
+import androidx.lifecycle.ViewModelProvider
 import com.example.cardlink.adapter.ContactAdapter
 import com.example.cardlink.dataLayer.Mock.Companion.mockedContacts
 import com.example.cardlink.dialog.BusinessCardDialog
+import com.example.cardlink.viewModels.MainViewModel
 
 
 class NetworkFragment : Fragment() {
+    private lateinit var profileViewModel: MainViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_network, container, false)
+
+        profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+
         val myContactsListView = view.findViewById<ListView>(R.id.list_of_contacts)
 
         val contactAdapter = ContactAdapter(requireActivity(), mockedContacts)
@@ -33,6 +40,14 @@ class NetworkFragment : Fragment() {
             businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
         }
 
+        setupObservers(view)
+
         return view
+    }
+
+    private fun setupObservers(view: View) {
+        profileViewModel.myConnections.observe(viewLifecycleOwner) {
+            println("debug: got change in network page $it")
+        }
     }
 }

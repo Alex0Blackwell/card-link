@@ -11,14 +11,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.*
 import com.example.cardlink.R
+import com.example.cardlink.viewModels.MainViewModel
 
 
 private const val CAMERA_REQUEST_CODE = 101
 
 class ScanningFragment : Fragment() {
-
+    private lateinit var profileViewModel: MainViewModel
     private lateinit var mQrScanner:CodeScanner
     private lateinit var mContext: Context
 
@@ -33,15 +35,17 @@ class ScanningFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mContext = view.context
+
         if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA)
             == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.CAMERA), CAMERA_REQUEST_CODE);
         }
         qrScannerSetUp(view)
-
     }
 
     private fun qrScannerSetUp(view: View){
+        profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+
         val qrScanner = view.findViewById<CodeScannerView>(R.id.qrScanner)
         mQrScanner = CodeScanner(mContext, qrScanner)
 
@@ -60,6 +64,7 @@ class ScanningFragment : Fragment() {
         }
         mQrScanner.decodeCallback = DecodeCallback {
             println("debug: got something: $it")
+            profileViewModel.addConnection(it.toString())
 
             requireActivity().runOnUiThread {
 
