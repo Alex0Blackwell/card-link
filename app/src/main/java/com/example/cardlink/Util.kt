@@ -21,7 +21,7 @@ class Util {
                 val storageReference = FirebaseStorage.getInstance().reference
                 val photoReference = storageReference.child("images/${userId}/profile.jpg")
                 val ONE_MEGABYTE = (1024 * 1024 * 10).toLong()
-                photoReference.downloadUrl.addOnSuccessListener {
+                photoReference.metadata.addOnSuccessListener {
                     println("debug: onSuccess $it")
                     photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
                         val bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
