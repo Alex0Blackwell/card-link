@@ -51,6 +51,7 @@ class NetworkFragment : Fragment() {
                 bundleUpPersonInfo.putString(BusinessCardDialog.facebookKey, contact.person.facebook)
                 bundleUpPersonInfo.putString(BusinessCardDialog.twitterKey, contact.person.twitter)
                 bundleUpPersonInfo.putString(BusinessCardDialog.websiteKey, contact.person.website)
+                bundleUpPersonInfo.putString(BusinessCardDialog.uidKey, contact.primaryKey)
                 businessCardDialog.arguments = bundleUpPersonInfo
                 businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
             }

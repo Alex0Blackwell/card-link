@@ -117,39 +117,49 @@
         android:layout_gravity="center">
         />
         <ImageButton
+            android:id="@+id/network_card_linkedin"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/linkedin"
-            android:clickable="false">
+            android:clickable="false"
+            android:visibility="invisible">
         </ImageButton>
 
         <ImageButton
+            android:id="@+id/network_card_github"
             android:layout_marginLeft="30dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/github"
-            android:clickable="false">
+            android:clickable="false"
+            android:visibility="invisible">
         </ImageButton>
 
         <ImageButton
+            android:id="@+id/network_card_facebook"
             android:layout_marginLeft="30dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/facebook"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:visibility="invisible"/>
 
         <ImageButton
+            android:id="@+id/network_card_twitter"
             android:layout_marginLeft="30dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/twitter"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:visibility="invisible"/>
 
         <ImageButton
+            android:id="@+id/network_card_website"
             android:layout_marginLeft="30dp"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/link"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:visibility="invisible"/>
     </LinearLayout>
 </LinearLayout>

@@ -2,17 +2,23 @@ package com.example.cardlink.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import com.example.cardlink.R
+import com.example.cardlink.Util.Companion.downloadUserImage
 import com.example.cardlink.dataLayer.Mock
 import com.example.cardlink.dataLayer.MockContact
-import com.example.cardlink.dataLayer.Person
+
 
 class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
 
@@ -27,6 +33,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         const val facebookKey = "facebook_key"
         const val twitterKey = "twitter_key"
         const val websiteKey = "website_key"
+        const val uidKey = "uid_key"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -40,6 +47,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         val facebook = arguments?.getString(facebookKey)
         val twitter = arguments?.getString(twitterKey)
         val website = arguments?.getString(websiteKey)
+        val uid = arguments?.getString(uidKey)
 
         val businessCardDialogView = View.inflate(context, R.layout.dialog_business_card, null)
 
@@ -55,7 +63,57 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         dialog.findViewById<TextView>(R.id.network_card_description)?.text = description
         dialog.findViewById<TextView>(R.id.network_card_phone)?.text = phone
         dialog.findViewById<TextView>(R.id.network_card_email)?.text = email
-        // TODO: Set profile photo when we have real data
+        dialog.findViewById<ImageView>(R.id.network_card_profile_image)
+            ?.let {
+                if (uid != null) {
+                    downloadUserImage(uid, it)
+                }
+            }
+
+        if (linkedIn != "") {
+            dialog.findViewById<ImageButton>(R.id.network_card_linkedin)?.isVisible = true
+            dialog.findViewById<ImageButton>(R.id.network_card_linkedin)?.isEnabled = true
+            dialog.findViewById<ImageButton>(R.id.network_card_linkedin)?.setOnClickListener { _ ->
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(linkedIn))
+                startActivity(browserIntent)
+            }
+        }
+
+        if (github != "") {
+            dialog.findViewById<ImageButton>(R.id.network_card_github)?.isVisible = true
+            dialog.findViewById<ImageButton>(R.id.network_card_github)?.isEnabled = true
+            dialog.findViewById<ImageButton>(R.id.network_card_github)?.setOnClickListener { _ ->
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(github))
+                startActivity(browserIntent)
+            }
+        }
+
+        if (facebook != "") {
+            dialog.findViewById<ImageButton>(R.id.network_card_facebook)?.isVisible = true
+            dialog.findViewById<ImageButton>(R.id.network_card_facebook)?.isEnabled = true
+            dialog.findViewById<ImageButton>(R.id.network_card_facebook)?.setOnClickListener { _ ->
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(facebook))
+                startActivity(browserIntent)
+            }
+        }
+
+        if (twitter != "") {
+            dialog.findViewById<ImageButton>(R.id.network_card_twitter)?.isVisible = true
+            dialog.findViewById<ImageButton>(R.id.network_card_twitter)?.isEnabled = true
+            dialog.findViewById<ImageButton>(R.id.network_card_twitter)?.setOnClickListener { _ ->
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(twitter))
+                startActivity(browserIntent)
+            }
+        }
+
+        if (website != "") {
+            dialog.findViewById<ImageButton>(R.id.network_card_website)?.isVisible = true
+            dialog.findViewById<ImageButton>(R.id.network_card_website)?.isEnabled = true
+            dialog.findViewById<ImageButton>(R.id.network_card_website)?.setOnClickListener { _ ->
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
+                startActivity(browserIntent)
+            }
+        }
 
         return dialog
     }
