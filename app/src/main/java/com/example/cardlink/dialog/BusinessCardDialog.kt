@@ -6,10 +6,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.cardlink.R
+import com.example.cardlink.Util.Companion.downloadUserImage
 import com.example.cardlink.dataLayer.Mock
 import com.example.cardlink.dataLayer.MockContact
 import com.example.cardlink.dataLayer.Person
@@ -27,6 +29,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         const val facebookKey = "facebook_key"
         const val twitterKey = "twitter_key"
         const val websiteKey = "website_key"
+        const val uidKey = "uid_key"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -40,6 +43,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         val facebook = arguments?.getString(facebookKey)
         val twitter = arguments?.getString(twitterKey)
         val website = arguments?.getString(websiteKey)
+        val uid = arguments?.getString(uidKey)
 
         val businessCardDialogView = View.inflate(context, R.layout.dialog_business_card, null)
 
@@ -55,8 +59,12 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         dialog.findViewById<TextView>(R.id.network_card_description)?.text = description
         dialog.findViewById<TextView>(R.id.network_card_phone)?.text = phone
         dialog.findViewById<TextView>(R.id.network_card_email)?.text = email
-        // TODO: Set profile photo when we have real data
-
+        dialog.findViewById<ImageView>(R.id.network_card_profile_image)
+            ?.let {
+                if (uid != null) {
+                    downloadUserImage(uid, it, requireActivity())
+                }
+            }
         return dialog
     }
 
