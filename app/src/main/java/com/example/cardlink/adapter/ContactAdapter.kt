@@ -49,9 +49,7 @@ class ContactAdapter(
         viewHolder?.name?.text = contact.name
         viewHolder?.occupation?.text = contact.occupation
         viewHolder?.person = contact
-
-        println("Debug: user ${contact.primaryKey}")
-        viewHolder?.photo?.let { downloadUserImage(contact.primaryKey, it, context) }
+        viewHolder?.photo?.let { downloadUserImage(contact.primaryKey, it) }
 
         return myViewConverter!!
     }

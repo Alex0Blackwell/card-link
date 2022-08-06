@@ -62,7 +62,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         dialog.findViewById<ImageView>(R.id.network_card_profile_image)
             ?.let {
                 if (uid != null) {
-                    downloadUserImage(uid, it, requireActivity())
+                    downloadUserImage(uid, it)
                 }
             }
         return dialog
