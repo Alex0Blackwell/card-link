@@ -102,6 +102,7 @@ class MainViewModel: ViewModel() {
             myConnectionRef.get().addOnSuccessListener { connectionIds ->
                 myConnections.value = arrayListOf()
                 for(connectionId in connectionIds.children) {
+                    println("connectionID: $connectionId")
                     val connectionRef = database.child("users").child(connectionId.value as String)
                     connectionRef.get().addOnSuccessListener {
                         val person = Person(

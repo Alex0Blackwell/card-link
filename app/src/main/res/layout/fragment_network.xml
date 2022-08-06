@@ -28,6 +28,7 @@
                 android:src="@drawable/baseline_search_20" />
 
             <EditText
+                android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
