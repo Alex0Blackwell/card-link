@@ -1,22 +1,19 @@
 package com.example.cardlink.activities
 
+//import com.example.cardlink.viewModels.ProfileViewModel
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cardlink.R
 import com.example.cardlink.Util
 import com.example.cardlink.adapters.TabPageAdapter
 import com.example.cardlink.viewModels.MainViewModel
-//import com.example.cardlink.viewModels.ProfileViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -32,13 +29,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
-
+    private var created = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main)
         tabBarSetUp()
+        if (savedInstanceState != null) {
+            created = savedInstanceState.getInt("created", 0)
+        }
         val isAuth = checkCurrentUser()
         if (isAuth) {
             println("debug: authenticated")
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             auth = Firebase.auth
             val user = auth.currentUser
             val userId = user?.uid
-            if (userId != null) {
+            if (userId != null && created != 1) {
                 val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
                 progressBar.visibility = View.VISIBLE;
                 // Download the user's profile picture
@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     mainViewModel.updateMyConnectionsViewModel()
+                    mainViewModel.updateMyPinnedConnectionsViewModel()
 
                     // Retrieve user's profile information based on uuid
                     database.child("users").child(userId).get().addOnSuccessListener {
@@ -196,6 +197,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putInt("created", 1)
+    }
 }
 
 

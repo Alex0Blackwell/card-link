@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -14,11 +15,13 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.example.cardlink.R
 import com.example.cardlink.Util.Companion.downloadUserImage
 import com.example.cardlink.Util.Companion.getUri
 import com.example.cardlink.dataLayer.Mock
 import com.example.cardlink.dataLayer.MockContact
+import com.example.cardlink.viewModels.MainViewModel
 
 
 class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
@@ -35,6 +38,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         const val twitterKey = "twitter_key"
         const val websiteKey = "website_key"
         const val uidKey = "uid_key"
+        const val pinKey = "pin_key"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -49,6 +53,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         val twitter = arguments?.getString(twitterKey)
         val website = arguments?.getString(websiteKey)
         val uid = arguments?.getString(uidKey)
+        val pinned = arguments?.getBoolean(pinKey)
 
         val businessCardDialogView = View.inflate(context, R.layout.dialog_business_card, null)
 
@@ -58,6 +63,60 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
+
+        val pinContact = dialog.findViewById<ImageView>(R.id.whitePin)
+        val unpinContact = dialog.findViewById<ImageView>(R.id.blackPin)
+        val removeContact = dialog.findViewById<ImageView>(R.id.trashIcon)
+
+        if (pinned == true) {
+            if (unpinContact != null) {
+                unpinContact.visibility = View.VISIBLE
+                unpinContact.isClickable = true
+            }
+        }
+        else {
+            if (pinContact != null) {
+                pinContact.visibility = View.VISIBLE
+                pinContact.isClickable = true
+            }
+        }
+
+        removeContact?.setOnClickListener {
+            val profileViewModel: MainViewModel by activityViewModels()
+            if (uid != null) {
+                println("clicked remove button and uid not null!")
+                profileViewModel.removeContact(uid)
+                dismiss()
+            }
+        }
+        pinContact?.setOnClickListener(View.OnClickListener {
+            val profileViewModel: MainViewModel by activityViewModels()
+            if (uid != null) {
+                profileViewModel.addPin(uid)
+                pinContact.visibility = View.INVISIBLE
+                pinContact.isClickable = false
+                if (unpinContact != null) {
+                    unpinContact.visibility = View.VISIBLE
+                    unpinContact.isClickable = true
+                }
+            }
+        })
+
+        unpinContact?.setOnClickListener(View.OnClickListener {
+            val profileViewModel: MainViewModel by activityViewModels()
+            if (uid != null) {
+                profileViewModel.removePin(uid)
+                unpinContact.visibility = View.INVISIBLE
+                unpinContact.isClickable = false
+                if (pinContact != null) {
+                    pinContact.visibility = View.VISIBLE
+                    pinContact.isClickable = true
+                }
+            }
+        })
+
+
+
 
         dialog.findViewById<TextView>(R.id.network_card_name)?.text = name
         dialog.findViewById<TextView>(R.id.network_card_occupation)?.text = occupation

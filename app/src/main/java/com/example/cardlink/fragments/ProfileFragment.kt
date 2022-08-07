@@ -20,8 +20,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager2.widget.ViewPager2
 import com.example.cardlink.R
 import com.example.cardlink.Util
+import com.example.cardlink.adapters.TabPageAdapter
 import com.example.cardlink.interfaces.LinkContract
 import com.example.cardlink.viewModels.MainViewModel
 import com.firebase.ui.auth.AuthUI
@@ -116,7 +118,7 @@ class ProfileFragment : Fragment(), LinkContract {
                         emailEditText.text.toString(),
                         occupationEditText.text.toString()) != 0) {
                     var myRunnable = Runnable() {
-                        setUpProfileInfo()
+                        resetProfileInfo()
                         Toast.makeText(requireActivity(), "Error saving profile", Toast.LENGTH_SHORT).show()
                     };
                     mainHandler.post(myRunnable);
@@ -124,6 +126,12 @@ class ProfileFragment : Fragment(), LinkContract {
                 else {
                     var myRunnable = Runnable() {
                         Toast.makeText(requireActivity(), "Profile information saved successfully!", Toast.LENGTH_SHORT).show()
+                        val tabLayout = requireActivity().findViewById<TabLayout>(R.id.tabLayout)
+                        val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
+                        val adapter = TabPageAdapter(requireActivity(), tabLayout.tabCount)
+                        viewPager.adapter = adapter
+
+                        tabLayout.selectTab(tabLayout.getTabAt(2))
                     };
                     mainHandler.post(myRunnable);
                 }
@@ -131,7 +139,7 @@ class ProfileFragment : Fragment(), LinkContract {
         }
 
         cancelButton.setOnClickListener {
-            setUpProfileInfo()
+            resetProfileInfo()
             Toast.makeText(requireActivity(), "Changes discarded", Toast.LENGTH_SHORT).show()
         }
 
@@ -180,7 +188,7 @@ class ProfileFragment : Fragment(), LinkContract {
             }.addOnFailureListener {
                 Toast.makeText(
                     requireActivity(),
-                    "No Such file or Path found!!",
+                    "User has no profile picture uploaded",
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -209,7 +217,7 @@ class ProfileFragment : Fragment(), LinkContract {
         occupationEditText.setText(profileViewModel.occupation)
     }
 
-    private fun setUpProfileInfo() {
+    private fun resetProfileInfo() {
         val user = auth.currentUser
         val userId = user?.uid
         if (userId != null) {

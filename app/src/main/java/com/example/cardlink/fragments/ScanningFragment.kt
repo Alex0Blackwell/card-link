@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -119,6 +120,7 @@ class ScanningFragment : Fragment() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
+        dialog.findViewById<ImageView>(R.id.trashIcon)?.visibility = View.INVISIBLE
         dialog.findViewById<TextView>(R.id.network_card_new_contact)?.visibility = View.VISIBLE
         dialog.findViewById<TextView>(R.id.network_card_name)?.text = contact.name
         dialog.findViewById<TextView>(R.id.network_card_occupation)?.text = contact.occupation
