@@ -1,10 +1,13 @@
 package com.example.cardlink
 
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.webkit.URLUtil.isValidUrl
 import android.widget.ImageView
 import android.widget.Toast
+import com.google.common.base.Ascii.toLowerCase
 import com.google.firebase.storage.FirebaseStorage
 
 class Util {
@@ -34,6 +37,19 @@ class Util {
                     println("debug: image not found")
                 }
             }).start()
+        }
+
+        // appends "https://" prefix
+        fun getUri(url: String): Uri {
+            val lowerCaseUrl = toLowerCase(url)
+            var uri: Uri = Uri.parse(lowerCaseUrl)
+
+            // Reference: https://stackoverflow.com/questions/5882656/no-activity-found-to-handle-intent-android-intent-action-view
+            if (!lowerCaseUrl.startsWith("http://") && !lowerCaseUrl.startsWith("https://")) {
+                uri = Uri.parse("https://${lowerCaseUrl}")
+            }
+
+            return uri
         }
     }
 }
