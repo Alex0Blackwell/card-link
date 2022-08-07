@@ -16,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import com.example.cardlink.R
 import com.example.cardlink.Util.Companion.downloadUserImage
+import com.example.cardlink.Util.Companion.getUri
 import com.example.cardlink.dataLayer.Mock
 import com.example.cardlink.dataLayer.MockContact
 
@@ -74,7 +75,8 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
             dialog.findViewById<ImageButton>(R.id.network_card_linkedin)?.isVisible = true
             dialog.findViewById<ImageButton>(R.id.network_card_linkedin)?.isEnabled = true
             dialog.findViewById<ImageButton>(R.id.network_card_linkedin)?.setOnClickListener { _ ->
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(linkedIn))
+                val uri = linkedIn?.let { getUri(linkedIn) }
+                val browserIntent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(browserIntent)
             }
         }
@@ -83,7 +85,8 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
             dialog.findViewById<ImageButton>(R.id.network_card_github)?.isVisible = true
             dialog.findViewById<ImageButton>(R.id.network_card_github)?.isEnabled = true
             dialog.findViewById<ImageButton>(R.id.network_card_github)?.setOnClickListener { _ ->
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(github))
+                val uri = github?.let { getUri(github) }
+                val browserIntent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(browserIntent)
             }
         }
@@ -92,7 +95,8 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
             dialog.findViewById<ImageButton>(R.id.network_card_facebook)?.isVisible = true
             dialog.findViewById<ImageButton>(R.id.network_card_facebook)?.isEnabled = true
             dialog.findViewById<ImageButton>(R.id.network_card_facebook)?.setOnClickListener { _ ->
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(facebook))
+                val uri = facebook?.let { getUri(facebook) }
+                val browserIntent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(browserIntent)
             }
         }
@@ -101,7 +105,8 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
             dialog.findViewById<ImageButton>(R.id.network_card_twitter)?.isVisible = true
             dialog.findViewById<ImageButton>(R.id.network_card_twitter)?.isEnabled = true
             dialog.findViewById<ImageButton>(R.id.network_card_twitter)?.setOnClickListener { _ ->
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(twitter))
+                val uri = twitter?.let { getUri(twitter) }
+                val browserIntent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(browserIntent)
             }
         }
@@ -110,7 +115,8 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
             dialog.findViewById<ImageButton>(R.id.network_card_website)?.isVisible = true
             dialog.findViewById<ImageButton>(R.id.network_card_website)?.isEnabled = true
             dialog.findViewById<ImageButton>(R.id.network_card_website)?.setOnClickListener { _ ->
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(website))
+                val uri = website?.let { getUri(it) }
+                val browserIntent = Intent(Intent.ACTION_VIEW, uri)
                 startActivity(browserIntent)
             }
         }
