@@ -66,6 +66,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
 
         val pinContact = dialog.findViewById<ImageView>(R.id.whitePin)
         val unpinContact = dialog.findViewById<ImageView>(R.id.blackPin)
+        val removeContact = dialog.findViewById<ImageView>(R.id.trashIcon)
 
         if (pinned == true) {
             if (unpinContact != null) {
@@ -77,6 +78,15 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
             if (pinContact != null) {
                 pinContact.visibility = View.VISIBLE
                 pinContact.isClickable = true
+            }
+        }
+
+        removeContact?.setOnClickListener {
+            val profileViewModel: MainViewModel by activityViewModels()
+            if (uid != null) {
+                println("clicked remove button and uid not null!")
+                profileViewModel.removeContact(uid)
+                dismiss()
             }
         }
         pinContact?.setOnClickListener(View.OnClickListener {

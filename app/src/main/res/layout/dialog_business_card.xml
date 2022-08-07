@@ -52,7 +52,9 @@
                 android:layout_marginRight="20dp"
                 />
             <ImageView
-                android:layout_toEndOf="@+id/network_card_name"
+                android:layout_marginTop="5dp"
+                android:layout_toStartOf="@+id/trashIcon"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/whitePin"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -61,13 +63,23 @@
                 android:clickable="false"
                 />
             <ImageView
-                android:layout_toEndOf="@+id/network_card_name"
+                android:layout_marginTop="5dp"
+                android:layout_toStartOf="@+id/trashIcon"
+                android:layout_marginEnd="20dp"
                 android:id="@+id/blackPin"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/office_pin"
                 android:visibility="invisible"
                 android:clickable="false"
+                />
+
+            <ImageView
+                android:layout_alignParentEnd="true"
+                android:id="@+id/trashIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/remove"
                 />
 
             </RelativeLayout>

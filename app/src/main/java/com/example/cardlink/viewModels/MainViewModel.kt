@@ -79,6 +79,46 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    fun removeContact(contactToRemove: String) {
+        // Note we have to embed all these promises because of async.
+        if(userId != null) {
+            try {
+                removePin(contactToRemove)
+                var removed = false
+                val requesterUserRef = database.child("users").child(userId)
+                val contactToRemoveRef = database.child("users").child(contactToRemove)
+                println("contact to remove: $userId")
+                requesterUserRef.get().addOnSuccessListener { requesterUser ->
+                    contactToRemoveRef.get().addOnSuccessListener { receiverUser ->
+                        if(requesterUser.exists() and receiverUser.exists()) {
+                            val requesterConnectionRef = database.child("connections").child(userId)
+                            requesterConnectionRef.get().addOnSuccessListener {connections ->
+                                for(contact in connections.children) {
+                                    if (contact.value == contactToRemove) {
+                                        contact.key?.let { database.child("connections").child(userId).child(
+                                            contact.key!!
+                                            ).removeValue().addOnSuccessListener {
+                                                println("Removed from contact list!!")
+                                                updateMyPinnedConnectionsViewModel()
+                                                updateMyConnectionsViewModel()
+                                                removed = true
+                                             }
+                                        }
+                                    }
+                                    if (removed) {
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (ex: Exception) {
+                println("debug: getting the requester or receiver info failed")
+            }
+        }
+    }
+
     fun removePin(pinnedContactToRemove: String) {
         // Note we have to embed all these promises because of async.
         if(userId != null) {
@@ -206,6 +246,7 @@ class MainViewModel: ViewModel() {
             // Get all the connection IDs
             myConnectionRef.get().addOnSuccessListener { connectionIds ->
                 myConnections.value = arrayListOf()
+                val allConnections = arrayListOf<Person>()
                 for(connectionId in connectionIds.children) {
                     println("connectionID: $connectionId")
                     val connectionRef = database.child("users").child(connectionId.value as String)
@@ -222,13 +263,7 @@ class MainViewModel: ViewModel() {
                             Util.asString(it.child("facebook").value),
                             Util.asString(it.child("twitter").value)
                         )
-
-                        val allConnections = arrayListOf<Person>()
-                        val currentConnections = myConnections.value
                         allConnections.add(person)
-                        if(currentConnections != null)
-                            allConnections.addAll(currentConnections)
-
                         myConnections.postValue(allConnections)
                     }
                 }
