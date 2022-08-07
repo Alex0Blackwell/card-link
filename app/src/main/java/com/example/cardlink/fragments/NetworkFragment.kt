@@ -89,11 +89,40 @@ class NetworkFragment : Fragment() {
         }
     }
     private fun setupObservers(view: View) {
+        profileViewModel.myPinnedConnections.observe(viewLifecycleOwner) {
+            val myPinnedContactsListView = view.findViewById<ListView>(R.id.pinned_list_of_contacts)
+            val contactAdapter = ContactAdapter(requireActivity(), it)
+            myPinnedContactsListView.adapter = contactAdapter
+            myPinnedContactsListView.setOnItemClickListener { _, item: View, _, _ ->
+                val contact = item.tag as ContactAdapter.ViewHolder
+                val businessCardDialog = BusinessCardDialog()
+                val bundleUpPersonInfo = Bundle()
+                bundleUpPersonInfo.putString(BusinessCardDialog.nameKey, contact.person.name)
+                bundleUpPersonInfo.putString(
+                    BusinessCardDialog.descriptionKey,
+                    contact.person.description
+                )
+                bundleUpPersonInfo.putString(BusinessCardDialog.phoneKey, contact.person.phone)
+                bundleUpPersonInfo.putString(BusinessCardDialog.emailKey, contact.person.email)
+                bundleUpPersonInfo.putString(BusinessCardDialog.occupationKey, contact.person.occupation)
+                bundleUpPersonInfo.putString(BusinessCardDialog.linkedInKey, contact.person.linkedIn)
+                bundleUpPersonInfo.putString(BusinessCardDialog.githubKey, contact.person.github)
+                bundleUpPersonInfo.putString(BusinessCardDialog.facebookKey, contact.person.facebook)
+                bundleUpPersonInfo.putString(BusinessCardDialog.twitterKey, contact.person.twitter)
+                bundleUpPersonInfo.putString(BusinessCardDialog.websiteKey, contact.person.website)
+                bundleUpPersonInfo.putString(BusinessCardDialog.uidKey, contact.primaryKey)
+                bundleUpPersonInfo.putBoolean(BusinessCardDialog.pinKey, true)
+                businessCardDialog.arguments = bundleUpPersonInfo
+                businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
+            }
+        }
+
         profileViewModel.myConnections.observe(viewLifecycleOwner) {
             val myContactsListView = view.findViewById<ListView>(R.id.list_of_contacts)
 
             originalPersons.clear()
             originalPersons.addAll(it)
+            println("all connections: $it")
 
             if (searchView.text.toString() != "") {
                 handleSearch(searchView.text.toString())
@@ -113,30 +142,14 @@ class NetworkFragment : Fragment() {
                     )
                     bundleUpPersonInfo.putString(BusinessCardDialog.phoneKey, contact.person.phone)
                     bundleUpPersonInfo.putString(BusinessCardDialog.emailKey, contact.person.email)
-                    bundleUpPersonInfo.putString(
-                        BusinessCardDialog.occupationKey,
-                        contact.person.occupation
-                    )
-                    bundleUpPersonInfo.putString(
-                        BusinessCardDialog.linkedInKey,
-                        contact.person.linkedIn
-                    )
-                    bundleUpPersonInfo.putString(
-                        BusinessCardDialog.githubKey,
-                        contact.person.github
-                    )
-                    bundleUpPersonInfo.putString(
-                        BusinessCardDialog.facebookKey,
-                        contact.person.facebook
-                    )
-                    bundleUpPersonInfo.putString(
-                        BusinessCardDialog.twitterKey,
-                        contact.person.twitter
-                    )
-                    bundleUpPersonInfo.putString(
-                        BusinessCardDialog.websiteKey,
-                        contact.person.website
-                    )
+                    bundleUpPersonInfo.putString(BusinessCardDialog.occupationKey, contact.person.occupation)
+                    bundleUpPersonInfo.putString(BusinessCardDialog.linkedInKey, contact.person.linkedIn)
+                    bundleUpPersonInfo.putString(BusinessCardDialog.githubKey, contact.person.github)
+                    bundleUpPersonInfo.putString(BusinessCardDialog.facebookKey, contact.person.facebook)
+                    bundleUpPersonInfo.putString(BusinessCardDialog.twitterKey, contact.person.twitter)
+                    bundleUpPersonInfo.putString(BusinessCardDialog.websiteKey, contact.person.website)
+                    bundleUpPersonInfo.putString(BusinessCardDialog.uidKey, contact.primaryKey)
+                    bundleUpPersonInfo.putBoolean(BusinessCardDialog.pinKey, false)
                     businessCardDialog.arguments = bundleUpPersonInfo
                     businessCardDialog.show(requireActivity().supportFragmentManager, "cardlink")
                 }

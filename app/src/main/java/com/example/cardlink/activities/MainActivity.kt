@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     mainViewModel.updateMyConnectionsViewModel()
+                    mainViewModel.updateMyPinnedConnectionsViewModel()
 
                     // Retrieve user's profile information based on uuid
                     database.child("users").child(userId).get().addOnSuccessListener {

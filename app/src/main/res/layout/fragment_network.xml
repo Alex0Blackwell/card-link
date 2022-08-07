@@ -57,9 +57,10 @@
         </LinearLayout>
 
         <ListView
-            android:id="@+id/list_of_contacts"
+            android:id="@+id/pinned_list_of_contacts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
 
         <!-- Recent text -->
         <LinearLayout
@@ -100,5 +101,9 @@
                 android:gravity="end"
                 android:text="Group by: Name"/>
         </LinearLayout>
+        <ListView
+            android:id="@+id/list_of_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </FrameLayout>
