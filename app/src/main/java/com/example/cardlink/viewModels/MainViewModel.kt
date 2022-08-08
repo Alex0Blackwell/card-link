@@ -2,6 +2,8 @@ package com.example.cardlink.viewModels
 
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cardlink.Util
@@ -11,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 
 class MainViewModel: ViewModel() {
     //userImage corresponds to the users profile image, saved as bitmap
@@ -105,9 +108,6 @@ class MainViewModel: ViewModel() {
                                              }
                                         }
                                     }
-                                    if (removed) {
-                                        break
-                                    }
                                 }
                             }
                         }
@@ -144,9 +144,6 @@ class MainViewModel: ViewModel() {
                                                 removed = true
                                             }
                                         }
-                                    }
-                                    if (removed) {
-                                        break
                                     }
                                 }
                             }
@@ -215,6 +212,10 @@ class MainViewModel: ViewModel() {
                     println("connectionID: $connectionId")
                     val connectionRef = database.child("users").child(connectionId.value as String)
                     connectionRef.get().addOnSuccessListener {
+                        val storageReference = FirebaseStorage.getInstance().reference
+                        val photoReference = storageReference.child("images/${connectionId.value}/profile.jpg")
+                        val ONE_MEGABYTE = (1024 * 1024 * 10).toLong()
+                        var bmp: Bitmap? = null
                         val person = Person(
                             Util.asString(connectionId.value),
                             Util.asString(it.child("name").value),
@@ -227,6 +228,15 @@ class MainViewModel: ViewModel() {
                             Util.asString(it.child("facebook").value),
                             Util.asString(it.child("twitter").value)
                         )
+                        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                            println("getting bytes")
+                            bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            person.profileImage = bmp
+                            println("bmp: $bmp")
+                        }.addOnFailureListener {
+                            println("pinned failed to get bytes, $it")
+                        }
+                        println("adding person to network list $person")
                         allConnections.add(person)
                         myPinnedConnections.postValue(allConnections)
                     }
@@ -251,6 +261,10 @@ class MainViewModel: ViewModel() {
                     println("connectionID: $connectionId")
                     val connectionRef = database.child("users").child(connectionId.value as String)
                     connectionRef.get().addOnSuccessListener {
+                        val storageReference = FirebaseStorage.getInstance().reference
+                        val photoReference = storageReference.child("images/${connectionId.value}/profile.jpg")
+                        val ONE_MEGABYTE = (1024 * 1024 * 10).toLong()
+                        var bmp: Bitmap? = null
                         val person = Person(
                             Util.asString(connectionId.value),
                             Util.asString(it.child("name").value),
@@ -263,6 +277,15 @@ class MainViewModel: ViewModel() {
                             Util.asString(it.child("facebook").value),
                             Util.asString(it.child("twitter").value)
                         )
+                        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener { bytes ->
+                            println("getting bytes")
+                            bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                            person.profileImage = bmp
+                            println("bmp: $bmp")
+                        }.addOnFailureListener {
+                            println("failed to get bytes, $it")
+                        }
+                        println("adding person to network list $person")
                         allConnections.add(person)
                         myConnections.postValue(allConnections)
                     }

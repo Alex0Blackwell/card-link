@@ -95,11 +95,11 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:text="All Contacts"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="Group by: Name"/>
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="end"-->
+<!--                android:text="Group by: Name"/>-->
         </LinearLayout>
         <ListView
             android:id="@+id/list_of_contacts"

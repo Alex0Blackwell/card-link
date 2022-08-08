@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             val user = auth.currentUser
             val userId = user?.uid
             if (userId != null && created != 1) {
+                println("loading in first time")
                 val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
                 progressBar.visibility = View.VISIBLE;
                 // Download the user's profile picture

@@ -131,7 +131,7 @@ class ProfileFragment : Fragment(), LinkContract {
                         val adapter = TabPageAdapter(requireActivity(), tabLayout.tabCount)
                         viewPager.adapter = adapter
 
-                        tabLayout.selectTab(tabLayout.getTabAt(2))
+                        tabLayout.selectTab(tabLayout.getTabAt(1))
                     };
                     mainHandler.post(myRunnable);
                 }
@@ -154,7 +154,7 @@ class ProfileFragment : Fragment(), LinkContract {
             val user = auth.currentUser
             val userId = user?.uid
             val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            Util.resize(bitmap, 100, 100)?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data: ByteArray = baos.toByteArray()
             val storage = FirebaseStorage.getInstance()
             val storageRef = storage.getReferenceFromUrl("gs://cardlink-8d22b.appspot.com")
@@ -263,9 +263,9 @@ class ProfileFragment : Fragment(), LinkContract {
         //view model observes any changes to ProfileImageViewModel value userImage (type bitmap)
         //userImage corresponds to the users profile image
         profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
-        profileViewModel.userImage.observe(viewLifecycleOwner) { it ->
+        profileViewModel.userImage.observe(viewLifecycleOwner) {
 //            tabLayout.getTabAt(3)?.icon = BitmapDrawable(this.resources, it) used to replace the tab icon with image
-            profileImage.setImageBitmap(it)
+            profileImage.setImageBitmap(Util.resize(it,100,100))
         }
 
         //based off resultCode value from activityResult we change the viewModel value userImage

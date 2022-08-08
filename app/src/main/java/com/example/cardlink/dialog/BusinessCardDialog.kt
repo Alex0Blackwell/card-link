@@ -39,6 +39,7 @@ class BusinessCardDialog: DialogFragment(), DialogInterface.OnClickListener {
         const val websiteKey = "website_key"
         const val uidKey = "uid_key"
         const val pinKey = "pin_key"
+        const val pinValKey = "pinval_key"
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -24,6 +24,12 @@ class NetworkFragment : Fragment() {
     private  var filteredPersons =  ArrayList<Person>()
     private  var originalPersons = ArrayList<Person>()
 
+    private lateinit var pinnedAdapter:ContactAdapter
+    private lateinit var pinnedList: ArrayList<Person>
+    private lateinit var myPinnedContactsListView: ListView
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +37,8 @@ class NetworkFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_network, container, false)
 
         profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+
+
 
         setupObservers(view)
 
