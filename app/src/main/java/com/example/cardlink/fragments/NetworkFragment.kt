@@ -98,6 +98,7 @@ class NetworkFragment : Fragment() {
     }
     private fun setupObservers(view: View) {
         profileViewModel.myPinnedConnections.observe(viewLifecycleOwner) {
+            println("debug: pinned fires with $it")
             val myPinnedContactsListView = view.findViewById<ListView>(R.id.pinned_list_of_contacts)
             val contactAdapter = ContactAdapter(requireActivity(), it)
             myPinnedContactsListView.adapter = contactAdapter

@@ -71,7 +71,7 @@ class ContactAdapter(
             viewHolder = ViewHolder(
                 _myViewConverter.findViewById(R.id.my_contacts_list_name),
                 _myViewConverter.findViewById(R.id.my_contacts_list_occupation),
-                _myViewConverter.findViewById(R.id.my_contacts_list_photo),
+                _myViewConverter.findViewById(R.id.my_contacts_profile_image),
             )
             _myViewConverter.tag = viewHolder
         }
