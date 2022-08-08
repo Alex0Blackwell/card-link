@@ -36,35 +36,42 @@
                     android:id="@+id/bodyLayout"
                     android:layout_width="match_parent"
                     android:layout_height="125dp"
-                    android:gravity="center">
-
-                    <Button
-                        android:id="@+id/logout_button"
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:text="Logout"
-                        android:layout_toEndOf="@id/changeProfileImageButton" />
+                    >
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profileImage"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:src="@drawable/ic_baseline_person_24"
-                        app:civ_border_color="#FF000000"
-                        app:civ_border_width="2dp" />
+                        android:layout_gravity="left"
+                        android:src="@drawable/person_icon"
+                        app:civ_border_width="0dp" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/changeProfileImageButton"
                         android:layout_width="54dp"
                         android:layout_height="57dp"
+                        android:layout_marginLeft="-30dp"
+                        android:layout_marginTop="50dp"
+                        android:layout_toEndOf="@+id/profileImage"
+                        android:backgroundTint="@color/white"
                         android:clickable="true"
                         android:src="@drawable/ic_baseline_camera_alt_24"
-                        android:layout_toEndOf="@+id/profileImage"
-                        android:layout_marginTop="50dp"
-                        android:layout_marginLeft="-30dp"
-                        >
+                        app:backgroundTint="@color/black"
+                        app:borderWidth="1dp">
 
                     </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/logout_button"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="75dp"
+                        android:layout_toEndOf="@id/changeProfileImageButton"
+                        android:text="Logout" />
 
                 </RelativeLayout>
 
@@ -84,13 +91,6 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!--            <TextView-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:text="Elon Musk"-->
-                <!--                android:layout_gravity="center"-->
-                <!--                android:textAppearance="?attr/textAppearanceHeadline3"-->
-                <!--                />-->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -209,7 +209,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:weightSum="10">
                 <com.google.android.material.button.MaterialButton
@@ -235,7 +235,6 @@
                     style="@style/Widget.AppCompat.Button"
                     />
             </LinearLayout>
-
 
         </LinearLayout>
 </LinearLayout>

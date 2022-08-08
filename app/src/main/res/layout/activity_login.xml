@@ -7,9 +7,33 @@
     android:padding="20dp">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="48sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/butler_bold"
+        android:text="Cardlink"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:layout_marginTop="-8dp"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="@string/short_saying"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="@string/login_explanation"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"/>
+        android:layout_marginTop="20dp"
+        android:text="EMAIL"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -19,7 +43,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"/>
+        android:text="PASSWORD"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -28,17 +52,17 @@
         android:id="@+id/login_password"/>
 
     <Button
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="Login"
         android:id="@+id/login_button"
         android:layout_gravity="center"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Up with these credentials"
         android:id="@+id/register_button"
         android:layout_gravity="center"/>
-
 </LinearLayout>
