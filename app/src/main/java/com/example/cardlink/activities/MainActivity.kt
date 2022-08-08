@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     mainViewModel.updateMyConnectionsViewModel()
-                    mainViewModel.updateMyPinnedConnectionsViewModel()
 
                     // Retrieve user's profile information based on uuid
                     database.child("users").child(userId).get().addOnSuccessListener {
@@ -96,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                         mainViewModel.facebook = Util.asString(it.child("facebook").value)
                         mainViewModel.website = Util.asString(it.child("website").value)
 
+                        mainViewModel.updateMyPinnedConnectionsViewModel()
                         println("Information finished downloading from Main!")
                         progressBar.setVisibility(View.GONE);
                     }.addOnFailureListener{

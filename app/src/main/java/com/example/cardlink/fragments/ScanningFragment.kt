@@ -64,7 +64,7 @@ class ScanningFragment : Fragment() {
         mQrScanner.apply {
             camera = CodeScanner.CAMERA_BACK
             formats = CodeScanner.ALL_FORMATS
-            autoFocusMode = AutoFocusMode.SAFE
+            autoFocusMode = AutoFocusMode.CONTINUOUS
             scanMode = ScanMode.CONTINUOUS
             isAutoFocusEnabled = true
             isFlashEnabled = false
