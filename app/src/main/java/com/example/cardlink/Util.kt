@@ -1,5 +1,6 @@
 package com.example.cardlink
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Handler
@@ -16,6 +17,23 @@ class Util {
             if(text != null)
                 return text as String
             return ""
+        }
+
+        // https://stackoverflow.com/questions/16465686/android-resizing-bitmaps-without-losing-quality
+        fun resize(imaged: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap? {
+            var image = imaged
+            val width = image.width
+            val height = image.height
+            val ratioBitmap = width.toFloat() / height.toFloat()
+            val ratioMax = maxWidth.toFloat() / maxHeight.toFloat()
+            var finalWidth = maxWidth
+            var finalHeight = maxHeight
+            if (ratioMax > 1) {
+                finalWidth = Math.round(maxHeight.toFloat() * ratioBitmap)
+            } else {
+                finalHeight = Math.round(maxWidth.toFloat() / ratioBitmap)
+            }
+            return Bitmap.createScaledBitmap(image, finalWidth, finalHeight, false)
         }
 
         fun downloadUserImage(userId: String, imageView: ImageView) {

@@ -154,7 +154,7 @@ class ProfileFragment : Fragment(), LinkContract {
             val user = auth.currentUser
             val userId = user?.uid
             val baos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            Util.resize(bitmap, 100, 100)?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data: ByteArray = baos.toByteArray()
             val storage = FirebaseStorage.getInstance()
             val storageRef = storage.getReferenceFromUrl("gs://cardlink-8d22b.appspot.com")
