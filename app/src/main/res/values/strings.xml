@@ -5,5 +5,7 @@
     <string name="my_card_text">People can scan your QR-code to add you as a connection!</string>
     <string name="failed_dialog_header">Whoops!</string>
     <string name="failed_dialog_message">We could not find this user.\nPlease try again.</string>
+    <string name="short_saying">A new way to network</string>
+    <string name="login_explanation">Create a Cardlink account to start networking your profile.</string>
 
 </resources>
