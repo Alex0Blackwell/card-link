@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:text="My Card"
+            android:fontFamily="@font/butler_bold"
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:textSize="28dp"
