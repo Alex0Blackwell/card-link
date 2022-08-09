@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             val user = auth.currentUser
             val userId = user?.uid
             if (userId != null && created != 1) {
+                println("loading in first time")
                 val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
                 progressBar.visibility = View.VISIBLE;
                 // Download the user's profile picture
@@ -64,7 +65,6 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     mainViewModel.updateMyConnectionsViewModel()
-                    mainViewModel.updateMyPinnedConnectionsViewModel()
 
                     // Retrieve user's profile information based on uuid
                     database.child("users").child(userId).get().addOnSuccessListener {
@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                         mainViewModel.facebook = Util.asString(it.child("facebook").value)
                         mainViewModel.website = Util.asString(it.child("website").value)
 
+                        mainViewModel.updateMyPinnedConnectionsViewModel()
                         println("Information finished downloading from Main!")
                         progressBar.setVisibility(View.GONE);
                     }.addOnFailureListener{

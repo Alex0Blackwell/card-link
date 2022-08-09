@@ -23,6 +23,7 @@ import com.example.cardlink.dataLayer.Person
 import com.example.cardlink.viewModels.MainViewModel
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import de.hdodenhof.circleimageview.CircleImageView
 
 
 private const val CAMERA_REQUEST_CODE = 101
@@ -52,6 +53,7 @@ class ScanningFragment : Fragment() {
         }
 
         qrScannerSetUp(view)
+        setupObservers(view)
     }
 
     private fun qrScannerSetUp(view: View){
@@ -64,7 +66,7 @@ class ScanningFragment : Fragment() {
         mQrScanner.apply {
             camera = CodeScanner.CAMERA_BACK
             formats = CodeScanner.ALL_FORMATS
-            autoFocusMode = AutoFocusMode.SAFE
+            autoFocusMode = AutoFocusMode.CONTINUOUS
             scanMode = ScanMode.CONTINUOUS
             isAutoFocusEnabled = true
             isFlashEnabled = false
@@ -107,6 +109,34 @@ class ScanningFragment : Fragment() {
                     showFailedDialog(it.toString())
                 }
             }
+        }
+    }
+
+    private fun setupObservers(view: View) {
+        profileViewModel.userImage.observe(viewLifecycleOwner) {
+            val viewToUpdate: CircleImageView = view.findViewById(R.id.scanning_fragment_profile_image)
+
+            viewToUpdate.setImageBitmap(it)
+        }
+        profileViewModel.liveName.observe(viewLifecycleOwner) {
+            val viewToUpdate: TextView = view.findViewById(R.id.scanning_fragment_name)
+            viewToUpdate.text = it
+        }
+        profileViewModel.liveOccupation.observe(viewLifecycleOwner) {
+            val viewToUpdate: TextView = view.findViewById(R.id.scanning_fragment_occupation)
+            viewToUpdate.text = it
+        }
+        profileViewModel.liveDescription.observe(viewLifecycleOwner) {
+            val viewToUpdate: TextView = view.findViewById(R.id.scanning_fragment_description)
+            viewToUpdate.text = it
+        }
+        profileViewModel.livePhone.observe(viewLifecycleOwner) {
+            val viewToUpdate: TextView = view.findViewById(R.id.scanning_fragment_phone)
+            viewToUpdate.text = it
+        }
+        profileViewModel.liveEmail.observe(viewLifecycleOwner) {
+            val viewToUpdate: TextView = view.findViewById(R.id.scanning_fragment_email)
+            viewToUpdate.text = it
         }
     }
 

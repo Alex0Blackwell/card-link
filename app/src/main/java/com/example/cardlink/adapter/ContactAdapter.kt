@@ -13,7 +13,7 @@ import com.example.cardlink.dataLayer.Person
 
 class ContactAdapter(
     private val context: Context,
-    private var contactList: ArrayList<Person>
+    public var contactList: ArrayList<Person>
 ): BaseAdapter() {
     private var myViewConverter: View? = null
     private var viewHolder: ViewHolder? = null
@@ -21,7 +21,7 @@ class ContactAdapter(
     data class ViewHolder(
         val name: TextView,
         val occupation: TextView,
-        val photo: ImageView,
+        var photo: ImageView,
         var primaryKey: String = "",
         var person: Person = Person()
     )
@@ -49,7 +49,9 @@ class ContactAdapter(
         viewHolder?.name?.text = contact.name
         viewHolder?.occupation?.text = contact.occupation
         viewHolder?.person = contact
-//        viewHolder?.photo?.let { downloadUserImage(contact.primaryKey, it) }
+        if (contact.profileImage != null) {
+            viewHolder?.photo?.setImageBitmap(contact.profileImage)
+        }
 
         return myViewConverter!!
     }
@@ -69,7 +71,7 @@ class ContactAdapter(
             viewHolder = ViewHolder(
                 _myViewConverter.findViewById(R.id.my_contacts_list_name),
                 _myViewConverter.findViewById(R.id.my_contacts_list_occupation),
-                _myViewConverter.findViewById(R.id.my_contacts_list_photo),
+                _myViewConverter.findViewById(R.id.my_contacts_profile_image),
             )
             _myViewConverter.tag = viewHolder
         }

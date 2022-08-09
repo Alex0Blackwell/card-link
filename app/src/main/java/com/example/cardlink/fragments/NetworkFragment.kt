@@ -24,6 +24,12 @@ class NetworkFragment : Fragment() {
     private  var filteredPersons =  ArrayList<Person>()
     private  var originalPersons = ArrayList<Person>()
 
+    private lateinit var pinnedAdapter:ContactAdapter
+    private lateinit var pinnedList: ArrayList<Person>
+    private lateinit var myPinnedContactsListView: ListView
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +37,8 @@ class NetworkFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_network, container, false)
 
         profileViewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
+
+
 
         setupObservers(view)
 
@@ -90,6 +98,7 @@ class NetworkFragment : Fragment() {
     }
     private fun setupObservers(view: View) {
         profileViewModel.myPinnedConnections.observe(viewLifecycleOwner) {
+            println("debug: pinned fires with $it")
             val myPinnedContactsListView = view.findViewById<ListView>(R.id.pinned_list_of_contacts)
             val contactAdapter = ContactAdapter(requireActivity(), it)
             myPinnedContactsListView.adapter = contactAdapter

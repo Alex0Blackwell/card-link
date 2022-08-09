@@ -1,5 +1,7 @@
 package com.example.cardlink.dataLayer
 
+import android.graphics.Bitmap
+
 
 data class Person(
     val primaryKey: String = "",
@@ -12,5 +14,6 @@ data class Person(
     val github: String = "",
     val facebook: String = "",
     val twitter: String = "",
-    val website: String = ""
+    val website: String = "",
+    var profileImage: Bitmap? = null
 )
